@@ -28,7 +28,7 @@ services:
     expose:
       - '3306'
     volumes:
-      - challenge5-database:/var/lib/mysql
+      - challenge5_database:/var/lib/mysql
     environment:
       MYSQL_DATABASE: 'challenge5_database_schema'
       MYSQL_USER: 'challenge5_database_username'
@@ -39,4 +39,4 @@ services:
       timeout: 5s
       retries: 3
 volumes:
-  challenge5-database:
+  challenge5_database:

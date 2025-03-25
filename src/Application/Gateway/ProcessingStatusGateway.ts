@@ -34,7 +34,7 @@ export class ProcessingStatusGateway implements ProcessingStatusInterface {
         LocalModel.init(
         {
             processingId: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
                 primaryKey: true,
             },
             createdAt: {
@@ -47,24 +47,24 @@ export class ProcessingStatusGateway implements ProcessingStatusInterface {
                 type: DataTypes.DATE,
             },
             processingStatus: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
             },
             processingStatusPercentage: {
-                type: DataTypes.NUMBER,
+                type: DataTypes.INTEGER,
             },
             processingVideoId: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
             },
             userId: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
             },
             processingLog: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
             },
         },
         {
             sequelize: this.sequelize,
-            modelName: "Processing",
+            modelName: "ProcessingStatusModel",
             tableName: "processing_status",
             timestamps: false,
         }
