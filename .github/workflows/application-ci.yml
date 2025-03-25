@@ -43,13 +43,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          # Additional arguments for the SonarScanner CLI
-          args: |
-            -Dsonar.projectKey=pos-tech-soat08-03_challenge5-app-status
-            -Dsonar.organization=pos-tech-soat08-03
-            -Dsonar.sources=./src
-            -Dsonar.exclusions=**/tests/**
-            -Dsonar.tests=./tests
-            -Dsonar.test.inclusions=./tests/**/*.test.tsx,./tests/**/*.test.ts
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
           projectBaseDir: .
