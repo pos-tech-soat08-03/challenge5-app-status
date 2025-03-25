@@ -1,8 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ProcessingStatusEnum } from './ValueObject/ProcessingStatusEnum';
-import { VideoEntity } from './VideoEntity';
-import { ProcessingConfigEntity } from './ValueObject/ProcessingConfigEntity';
-import { userEntity } from './ValueObject/UserEntity';
 
 export class ProcessingStatusEntity {
     private readonly processingId: string;
@@ -69,8 +66,8 @@ export class ProcessingStatusEntity {
         this.processingStatusPercentage = processingStatusPercentage;
     }
 
-    public setProcessingLog(processingLog: string): void {
-        this.processingLog = this.processingLog.concat(`\n{processingLog}`);
+    public appendProcessingLog(processingLog: string): void {
+        this.processingLog = this.processingLog.concat(`\n${processingLog}`);
     }
 
     public setUpdatedAt(updatedAt: Date): void {
