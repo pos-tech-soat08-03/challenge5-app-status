@@ -1,7 +1,6 @@
 import express from "express";
-//import { MySQLConnection } from "./easyorder/Infrastructure/DB/Impl/MySQLConnection";
 import { DefaultApiEndpoints } from "./Infrastructure/Api/ApisDefaultEndpoints";
-//import { ApiClientes } from "./easyorder/Infrastructure/Api/ApiClientes";
+import { MySQLConnection } from "./Infrastructure/DB/Impl/MySQLConnection";
 
 // Inicialização de banco de dados
 // const mysqlConnection = new MySQLConnection({
