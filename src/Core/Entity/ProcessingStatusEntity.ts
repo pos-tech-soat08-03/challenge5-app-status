@@ -12,14 +12,13 @@ export class ProcessingStatusEntity {
     private videoId: string;
     private userId: string;
 
-    constructor (userId: string, videoId: string, processingStatus: ProcessingStatusEnum, processingStatusPercentage?: number, processingLog?: string, createdAt?: Date,  updatedAt?: Date, finishedAt?: Date, processingId?: string) {
+    constructor (userId: string, videoId: string, processingStatus?: ProcessingStatusEnum, processingStatusPercentage?: number, processingLog?: string, createdAt?: Date,  updatedAt?: Date, finishedAt?: Date, processingId?: string) {
         
         this.processingId = processingId ?? uuidv4();
-        
         this.userId = userId;
         this.videoId = videoId;
         this.createdAt = createdAt ?? new Date();
-        this.processingStatus = processingStatus;
+        this.processingStatus = processingStatus ?? ProcessingStatusEnum.WAITING;
         this.processingStatusPercentage = processingStatusPercentage ?? 0;
         this.processingLog = processingLog ?? "";
         this.updatedAt = updatedAt;
@@ -50,19 +49,29 @@ export class ProcessingStatusEntity {
         return this.processingStatus;
     }
 
-    public getProcessingStatusPercentage(): number {
+    public getProcessingPercentage(): number {
         return this.processingStatusPercentage;
     }
 
-    public getProcessingVideoId(): string {
-        return this.videoId;
-    }
-
     public setProcessingStatus(processingStatus: ProcessingStatusEnum): void {
+        if (processingStatus === ProcessingStatusEnum.DONE) {
+            this.setProcessingStatusPercentage(100);
+            this.setFinishedAt(new Date());
+        }
+        if (this.processingStatus !== processingStatus) {
+            this.setUpdatedAt(new Date());
+        }
         this.processingStatus = processingStatus;
     }
 
     public setProcessingStatusPercentage(processingStatusPercentage: number): void {
+        if (processingStatusPercentage < 0 || processingStatusPercentage > 100) {
+            throw new Error("Invalid percentage value");
+        }
+        if (processingStatusPercentage < this.processingStatusPercentage) {
+            throw new Error("Percentage value cannot be decreased");
+        }
+        this.setUpdatedAt(new Date());
         this.processingStatusPercentage = processingStatusPercentage;
     }
 
@@ -75,11 +84,16 @@ export class ProcessingStatusEntity {
     }
 
     public setFinishedAt(finishedAt: Date): void {
+        this.setUpdatedAt(finishedAt);
         this.finishedAt = finishedAt;
     }
 
     public getUserId(): string {
         return this.userId;
+    }
+
+    public getProcessingVideoId(): string {
+        return this.videoId;
     }
 
 }
