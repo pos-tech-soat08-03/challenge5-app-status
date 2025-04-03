@@ -1,6 +1,6 @@
 import express from "express";
 import { DefaultApiEndpoints } from "./Infrastructure/Api/ApisDefaultEndpoints";
-import { MySQLConnection } from "./Infrastructure/DB/Impl/MySQLConnection";
+import { MySQLConnection } from "./Infrastructure/Database/Impl/MySQLConnection";
 
 // Inicialização de banco de dados
 const mysqlConnection = new MySQLConnection({

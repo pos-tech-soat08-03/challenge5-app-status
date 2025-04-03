@@ -1,4 +1,4 @@
-import { ProcessingStatusEntity } from '../../../../src/Core/Entity/ProcessingStatusEntity';
+import { ProcessingStatusEntity } from '../../../../src/Core/Entity/ProcessingEntity';
 import { ProcessingStatusEnum } from '../../../../src/Core/Entity/ValueObject/ProcessingStatusEnum';
 
 describe('ProcessingStatusEntity', () => {

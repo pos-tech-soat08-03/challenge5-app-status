@@ -1,9 +1,9 @@
 export enum ProcessingStatusEnum {
 
-    WAITING = 'Waiting for Processing',
+    NOT_STARTED = 'Waiting for Processing',
     PROCESSING = 'Processing Frames',
     INTERRUPTED = 'Processing Interrupted',
-    DONE = 'Finished Processing',
+    COMPLETED = 'Finished Processing',
     ERROR = 'Fatal Error Processing'
 
 }
