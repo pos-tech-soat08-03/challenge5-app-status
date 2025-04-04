@@ -1,5 +1,5 @@
 import { ProcessingConfigValueObject } from './ValueObject/ProcessingConfigValueObject';
-import { ProcessingStatusEnum } from './ValueObject/ProcessingStatusEnum';
+import { ProcessingStatusEnum } from './Enum/ProcessingStatusEnum';
 import { UserValueObject } from './ValueObject/UserValueObject';
 import { VideoValueObject } from './ValueObject/VideoValueObject';
 

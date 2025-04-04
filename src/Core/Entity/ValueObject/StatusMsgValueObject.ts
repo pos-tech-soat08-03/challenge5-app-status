@@ -1,4 +1,4 @@
-import { ProcessingStatusEnum } from "./ProcessingStatusEnum";
+import { ProcessingStatusEnum } from "../Enum/ProcessingStatusEnum";
 
 export class StatusMsgValueObject {
     private readonly idVideo: string;

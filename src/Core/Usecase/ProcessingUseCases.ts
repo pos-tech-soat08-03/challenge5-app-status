@@ -1,6 +1,6 @@
 import { ProcessingEntity } from "../Entity/ProcessingEntity";
 import { ProcessingConfigValueObject } from "../Entity/ValueObject/ProcessingConfigValueObject";
-import { ProcessingStatusEnum } from "../Entity/ValueObject/ProcessingStatusEnum";
+import { ProcessingStatusEnum } from "../Entity/Enum/ProcessingStatusEnum";
 import { UserValueObject } from "../Entity/ValueObject/UserValueObject";
 import { VideoValueObject } from "../Entity/ValueObject/VideoValueObject";
 import { ProcessingRepoGatewayInterface } from "../Interfaces/Gateway/ProcessingRepoGatewayInterface";
@@ -9,43 +9,15 @@ import { ProcessingConfigDTO } from "../Types/DTO/ProcessingConfigDTO";
 import { StatusMsgDTO } from "../Types/DTO/StatusMsgDTO";
 import { UserDTO } from "../Types/DTO/UserDTO";
 import { VideoDTO } from "../Types/DTO/VideoDTO";
-
-export class ProcessingUseCaseResponse {
-    public processingId: string;
-    public videoDTO: VideoDTO;
-    public userDTO: UserDTO;
-    public configDTO: ProcessingConfigDTO;
-    public status: string;
-    public percentage: number;
-    public message: string;
-    constructor(
-        processingId: string,
-        videoDTO: VideoDTO,
-        userDTO: UserDTO,
-        configDTO: ProcessingConfigDTO,
-        status: string,
-        percentage: number,
-        message: string
-    ) {
-        this.processingId = processingId;
-        this.videoDTO = videoDTO;
-        this.userDTO = userDTO;
-        this.configDTO = configDTO;
-        this.status = status;
-        this.percentage = percentage;
-        this.message = message;
-
-    }
-}
+import { ProcessingResponse } from "../Types/Responses";
 
 export class ProcessingUseCases {
 
-    public static async CreateProcessing (processingGateway: ProcessingRepoGatewayInterface, videoDTO: VideoDTO, userDTO: UserDTO, configDTO: ProcessingConfigDTO): Promise<ProcessingUseCaseResponse | undefined> {
-        
+    public static async CreateProcessing (processingGateway: ProcessingRepoGatewayInterface, videoDTO: VideoDTO, userDTO: UserDTO, configDTO: ProcessingConfigDTO): Promise<ProcessingResponse | undefined> {
+
         try {
             
-            const processingId = videoDTO.id_video + "-" + userDTO.id_usuario;
-        
+            const processingId = videoDTO.id_video;
             const newProcessing = new ProcessingEntity(
                 processingId, 
                 new VideoValueObject(videoDTO.id_video, videoDTO.title, videoDTO.description, videoDTO.filename, videoDTO.file_size, videoDTO.full_path, videoDTO.duration, videoDTO.framerate), 
@@ -55,100 +27,119 @@ export class ProcessingUseCases {
 
             const currentProcessing = await processingGateway.getProcessingById(processingId);
             if (currentProcessing) {
-                throw new Error("Processing already exists");
+                throw new Error("Processing already exists in the system");
             }
 
             const processing = await processingGateway.setProcessing(newProcessing);
             if (!processing) {
                 throw new Error("Error creating new processing");
             }
-            return new ProcessingUseCaseResponse(
-                processing.getProcessingId(),
-                processing.getVideo().toDTO(),
-                processing.getUser().toDTO(),
-                processing.getProcessingConfig().toDTO(),
-                processing.getProcessingStatus(),
-                processing.getProcessingPercentage(),
-                "Processing created successfully"
-            );
+
+            return {
+                id_processing: processing.getProcessingId(),
+                video_dto: processing.getVideo().toDTO(),
+                user_dto: processing.getUser().toDTO(),
+                config_dto: processing.getProcessingConfig().toDTO(),
+                status: processing.getProcessingStatus(),
+                percentage: processing.getProcessingPercentage(),
+                log: processing.getProcessingLog(),
+                error_count: processing.getProcessingErrorCount(),
+                success: true,
+                message: "Processing created successfully",
+                error_message: undefined,
+            } as ProcessingResponse;
+
         }
         catch (error: any) {
             throw new Error(error);
         }
     }
 
-    public static async GetProcessing (processingGateway: ProcessingRepoGatewayInterface, processingId: string): Promise<ProcessingUseCaseResponse | undefined> {
+    public static async GetProcessing (processingGateway: ProcessingRepoGatewayInterface, processingId: string): Promise<ProcessingResponse | undefined> {
         try {
             const processing = await processingGateway.getProcessingById(processingId);
             if (!processing) {
-                return undefined;
+                throw new Error("Error fetching processing by ID");
             }
-            return new ProcessingUseCaseResponse(
-                processing.getProcessingId(),
-                processing.getVideo().toDTO(),
-                processing.getUser().toDTO(),
-                processing.getProcessingConfig().toDTO(),
-                processing.getProcessingStatus(),
-                processing.getProcessingPercentage(),
-                "Processing obtained successfully"
-            );
+            return {
+                id_processing: processing.getProcessingId(),
+                video_dto: processing.getVideo().toDTO(),
+                user_dto: processing.getUser().toDTO(),
+                config_dto: processing.getProcessingConfig().toDTO(),
+                status: processing.getProcessingStatus(),
+                percentage: processing.getProcessingPercentage(),
+                log: processing.getProcessingLog(),
+                error_count: processing.getProcessingErrorCount(),
+                success: true,
+                message: "Processing created successfully",
+                error_message: undefined,
+            } as ProcessingResponse;
+
         }
         catch (error: any) {
-            throw new Error(error);
+            throw new Error(error.message);
         }
     }
 
-    public static async GetProcessingList (processingGateway: ProcessingRepoGatewayInterface): Promise<ProcessingUseCaseResponse[] | undefined> {
+    public static async GetProcessingList (processingGateway: ProcessingRepoGatewayInterface): Promise<ProcessingResponse[] | undefined> {
         try {
             const processingList = await processingGateway.getProcessingList();
             if (!processingList) {
-                return undefined;
+                throw new Error("Error fetching processing list");
             }
             const processingListResponse = processingList.map((processing: ProcessingEntity) => {
-                return new ProcessingUseCaseResponse(
-                    processing.getProcessingId(),
-                    processing.getVideo().toDTO(),
-                    processing.getUser().toDTO(),
-                    processing.getProcessingConfig().toDTO(),
-                    processing.getProcessingStatus(),
-                    processing.getProcessingPercentage(),
-                    "Processing listed successfully"
-                );
+                return {
+                    id_processing: processing.getProcessingId(),
+                    video_dto: processing.getVideo().toDTO(),
+                    user_dto: processing.getUser().toDTO(),
+                    config_dto: processing.getProcessingConfig().toDTO(),
+                    status: processing.getProcessingStatus(),
+                    percentage: processing.getProcessingPercentage(),
+                    log: processing.getProcessingLog(),
+                    error_count: processing.getProcessingErrorCount(),
+                    success: true,
+                    message: "Processing listed successfully",
+                    error_message: undefined,
+                } as ProcessingResponse;
             });
             return processingListResponse;
         }
         catch (error: any) {
-            throw new Error(error);
+            throw new Error(error.message);
         }
     }
 
-    public static async GetProcessingListByUser (processingGateway: ProcessingRepoGatewayInterface, userId: string): Promise<ProcessingUseCaseResponse[] | undefined> {
+    public static async GetProcessingListByUser (processingGateway: ProcessingRepoGatewayInterface, userId: string): Promise<ProcessingResponse[] | undefined> {
         try {
             const processingList = await processingGateway.getProcessingListByUser(userId);
             if (!processingList) {
-                return undefined;
+                throw new Error("Error fetching processing list by user");
             }
             const processingListResponse = processingList.map((processing: ProcessingEntity) => {
-                return new ProcessingUseCaseResponse(
-                    processing.getProcessingId(),
-                    processing.getVideo().toDTO(),
-                    processing.getUser().toDTO(),
-                    processing.getProcessingConfig().toDTO(),
-                    processing.getProcessingStatus(),
-                    processing.getProcessingPercentage(),
-                    "Processing listed successfully"
-                );
+                return {
+                    id_processing: processing.getProcessingId(),
+                    video_dto: processing.getVideo().toDTO(),
+                    user_dto: processing.getUser().toDTO(),
+                    config_dto: processing.getProcessingConfig().toDTO(),
+                    status: processing.getProcessingStatus(),
+                    percentage: processing.getProcessingPercentage(),
+                    log: processing.getProcessingLog(),
+                    error_count: processing.getProcessingErrorCount(),
+                    success: true,
+                    message: "Processing listed successfully",
+                    error_message: undefined,
+                } as ProcessingResponse;
             });
             return processingListResponse;
         }
         catch (error: any) {
-            throw new Error(error);
+            throw new Error(error.message);
         }
     }
 
-    public static async RegisterProcessingStatus (processingGateway: ProcessingRepoGatewayInterface, statusMsg: StatusMsgDTO): Promise<ProcessingUseCaseResponse | undefined> {
+    public static async RegisterProcessingStatus (processingGateway: ProcessingRepoGatewayInterface, statusMsg: StatusMsgDTO): Promise<ProcessingResponse | undefined> {
         try {
-            const processing = await processingGateway.getProcessingById(statusMsg.id_video + "-" + statusMsg.id_usuario);
+            const processing = await processingGateway.getProcessingById(statusMsg.id_video);
             if (!processing) {
                 throw new Error("Processing not found");
             }
@@ -158,23 +149,28 @@ export class ProcessingUseCases {
             if (!updatedProcessing) {
                 throw new Error("Error updating processing");
             }
-            return new ProcessingUseCaseResponse(
-                updatedProcessing.getProcessingId(),
-                updatedProcessing.getVideo().toDTO(),
-                updatedProcessing.getUser().toDTO(),
-                updatedProcessing.getProcessingConfig().toDTO(),
-                updatedProcessing.getProcessingStatus(),
-                updatedProcessing.getProcessingPercentage(),
-                "Processing updated successfully"
-            );        }
+            return {
+                id_processing: processing.getProcessingId(),
+                video_dto: processing.getVideo().toDTO(),
+                user_dto: processing.getUser().toDTO(),
+                config_dto: processing.getProcessingConfig().toDTO(),
+                status: processing.getProcessingStatus(),
+                percentage: processing.getProcessingPercentage(),
+                log: processing.getProcessingLog(),
+                error_count: processing.getProcessingErrorCount(),
+                success: true,
+                message: "Processing status updated successfully",
+                error_message: undefined,
+            } as ProcessingResponse;  
+        }
         catch (error: any) {
-            throw new Error(error);
+            throw new Error(error.message);
         }
     }
 
-    public static async RegisterProcessingError (processingGateway: ProcessingRepoGatewayInterface, errorMsg: ErrorMsgDTO): Promise<ProcessingUseCaseResponse | undefined> {
+    public static async RegisterProcessingError (processingGateway: ProcessingRepoGatewayInterface, errorMsg: ErrorMsgDTO): Promise<ProcessingResponse | undefined> {
         try {
-            const processing = await processingGateway.getProcessingById(errorMsg.id_video + "-" + errorMsg.id_user);
+            const processing = await processingGateway.getProcessingById(errorMsg.id_video);
             if (!processing) {
                 throw new Error("Processing not found");
             }
@@ -189,18 +185,22 @@ export class ProcessingUseCases {
             if (!updatedProcessing) {
                 throw new Error("Error updating processing");
             }
-            return new ProcessingUseCaseResponse(
-                updatedProcessing.getProcessingId(),
-                updatedProcessing.getVideo().toDTO(),
-                updatedProcessing.getUser().toDTO(),
-                updatedProcessing.getProcessingConfig().toDTO(),
-                updatedProcessing.getProcessingStatus(),
-                updatedProcessing.getProcessingPercentage(),
-                `Error count #${updatedProcessing.getProcessingErrorCount()}. Last error: ${errorMsg.error_message}`
-            );
+            return {
+                id_processing: processing.getProcessingId(),
+                video_dto: processing.getVideo().toDTO(),
+                user_dto: processing.getUser().toDTO(),
+                config_dto: processing.getProcessingConfig().toDTO(),
+                status: processing.getProcessingStatus(),
+                percentage: processing.getProcessingPercentage(),
+                log: processing.getProcessingLog(),
+                error_count: processing.getProcessingErrorCount(),
+                success: true,
+                message: `Error count #${updatedProcessing.getProcessingErrorCount()}. Last error: ${errorMsg.error_message}`,
+                error_message: undefined,
+            } as ProcessingResponse;  
         }
         catch (error: any) {
-            throw new Error(error);
+            throw new Error(error.message);
         }
 
     }

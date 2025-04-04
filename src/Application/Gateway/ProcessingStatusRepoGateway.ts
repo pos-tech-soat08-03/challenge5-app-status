@@ -1,6 +1,6 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import { ConnectionInfo } from "../../Core/Types/ConnectionInfo";
-import { ProcessingStatusEnum } from "../../Core/Entity/ValueObject/ProcessingStatusEnum";
+import { ProcessingStatusEnum } from "../../Core/Entity/Enum/ProcessingStatusEnum";
 import { VideoValueObject } from "../../Core/Entity/ValueObject/VideoValueObject";
 import { UserValueObject } from "../../Core/Entity/ValueObject/UserValueObject";
 import { ProcessingConfigValueObject } from "../../Core/Entity/ValueObject/ProcessingConfigValueObject";
@@ -36,7 +36,7 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
         LocalModel.init(
         {
             processingId: {
-                type: DataTypes.STRING(73),
+                type: DataTypes.STRING(36),
                 primaryKey: true,
                 allowNull: false,
                 unique: true,
