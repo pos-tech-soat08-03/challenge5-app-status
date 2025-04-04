@@ -63,9 +63,9 @@ export class ProcessingUseCases {
             }
             return {
                 id_processing: processing.getProcessingId(),
-                video: processing.getVideo(),
-                user: processing.getUser(),
-                config: processing.getProcessingConfig(),
+                video: processing.getVideo().toDTO(),
+                user: processing.getUser().toDTO(), 
+                config: processing.getProcessingConfig().toDTO(),
                 status: processing.getProcessingStatus(),
                 percentage: processing.getProcessingPercentage(),
                 log: processing.getProcessingLog(),
@@ -90,9 +90,9 @@ export class ProcessingUseCases {
             const processingListResponse = processingList.map((processing: ProcessingEntity) => {
                 return {
                     id_processing: processing.getProcessingId(),
-                    video: processing.getVideo(),
-                    user: processing.getUser(),
-                    config: processing.getProcessingConfig(),
+                    video: processing.getVideo().toDTO(),
+                    user: processing.getUser().toDTO(),
+                    config: processing.getProcessingConfig().toDTO(),
                     status: processing.getProcessingStatus(),
                     percentage: processing.getProcessingPercentage(),
                     log: processing.getProcessingLog(),
@@ -118,9 +118,9 @@ export class ProcessingUseCases {
             const processingListResponse = processingList.map((processing: ProcessingEntity) => {
                 return {
                     id_processing: processing.getProcessingId(),
-                    video: processing.getVideo(),
-                    user: processing.getUser(),
-                    config: processing.getProcessingConfig(),
+                    video: processing.getVideo().toDTO(),
+                    user: processing.getUser().toDTO(),
+                    config: processing.getProcessingConfig().toDTO(),
                     status: processing.getProcessingStatus(),
                     percentage: processing.getProcessingPercentage(),
                     log: processing.getProcessingLog(),
@@ -151,9 +151,9 @@ export class ProcessingUseCases {
             }
             return {
                 id_processing: processing.getProcessingId(),
-                video: processing.getVideo(),
-                user: processing.getUser(),
-                config: processing.getProcessingConfig(),
+                video: processing.getVideo().toDTO(),
+                user: processing.getUser().toDTO(),
+                config: processing.getProcessingConfig().toDTO(),
                 status: processing.getProcessingStatus(),
                 percentage: processing.getProcessingPercentage(),
                 log: processing.getProcessingLog(),
@@ -187,9 +187,9 @@ export class ProcessingUseCases {
             }
             return {
                 id_processing: processing.getProcessingId(),
-                video: processing.getVideo(),
-                user: processing.getUser(),
-                config: processing.getProcessingConfig(),
+                video: processing.getVideo().toDTO(),
+                user: processing.getUser().toDTO(),
+                config: processing.getProcessingConfig().toDTO(),
                 status: processing.getProcessingStatus(),
                 percentage: processing.getProcessingPercentage(),
                 log: processing.getProcessingLog(),

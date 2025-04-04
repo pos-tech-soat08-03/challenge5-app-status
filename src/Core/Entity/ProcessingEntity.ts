@@ -27,14 +27,14 @@ export class ProcessingEntity {
     public setProcessingStatus(processingStatus: ProcessingStatusEnum): void {
         if (processingStatus === ProcessingStatusEnum.COMPLETED) {
             this.setProcessingStatusPercentage(100);
-            this.appendProcessingLog('Processing finished successfully at ' + new Date().toDateString());
+            this.appendProcessingLog('Processing finished successfully at ' + new Date().toISOString());
         }
         if (processingStatus === ProcessingStatusEnum.INTERRUPTED) {
             this.processingErrorCount++;
-            this.appendProcessingLog(`Processing interrupted at ${new Date().toDateString()}. This is error #${this.processingErrorCount}.`);
+            this.appendProcessingLog(`Processing interrupted at ${new Date().toISOString()}. This is error #${this.processingErrorCount}.`);
         }
         if (this.processingStatus !== processingStatus) {
-            this.appendProcessingLog(`Status changed from ${this.processingStatus} to ${processingStatus} at ` + new Date().toDateString());
+            this.appendProcessingLog(`Status changed from ${this.processingStatus} to ${processingStatus} at ` + new Date().toISOString());
         }
         this.processingStatus = processingStatus;
     }
