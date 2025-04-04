@@ -37,9 +37,9 @@ export class ProcessingUseCases {
 
             return {
                 id_processing: processing.getProcessingId(),
-                video_dto: processing.getVideo().toDTO(),
-                user_dto: processing.getUser().toDTO(),
-                config_dto: processing.getProcessingConfig().toDTO(),
+                video: processing.getVideo().toDTO(),
+                user: processing.getUser().toDTO(),
+                config: processing.getProcessingConfig().toDTO(),
                 status: processing.getProcessingStatus(),
                 percentage: processing.getProcessingPercentage(),
                 log: processing.getProcessingLog(),
@@ -59,13 +59,13 @@ export class ProcessingUseCases {
         try {
             const processing = await processingGateway.getProcessingById(processingId);
             if (!processing) {
-                throw new Error("Error fetching processing by ID");
+                throw new Error("ID not found");
             }
             return {
                 id_processing: processing.getProcessingId(),
-                video_dto: processing.getVideo().toDTO(),
-                user_dto: processing.getUser().toDTO(),
-                config_dto: processing.getProcessingConfig().toDTO(),
+                video: processing.getVideo(),
+                user: processing.getUser(),
+                config: processing.getProcessingConfig(),
                 status: processing.getProcessingStatus(),
                 percentage: processing.getProcessingPercentage(),
                 log: processing.getProcessingLog(),
@@ -90,9 +90,9 @@ export class ProcessingUseCases {
             const processingListResponse = processingList.map((processing: ProcessingEntity) => {
                 return {
                     id_processing: processing.getProcessingId(),
-                    video_dto: processing.getVideo().toDTO(),
-                    user_dto: processing.getUser().toDTO(),
-                    config_dto: processing.getProcessingConfig().toDTO(),
+                    video: processing.getVideo(),
+                    user: processing.getUser(),
+                    config: processing.getProcessingConfig(),
                     status: processing.getProcessingStatus(),
                     percentage: processing.getProcessingPercentage(),
                     log: processing.getProcessingLog(),
@@ -118,9 +118,9 @@ export class ProcessingUseCases {
             const processingListResponse = processingList.map((processing: ProcessingEntity) => {
                 return {
                     id_processing: processing.getProcessingId(),
-                    video_dto: processing.getVideo().toDTO(),
-                    user_dto: processing.getUser().toDTO(),
-                    config_dto: processing.getProcessingConfig().toDTO(),
+                    video: processing.getVideo(),
+                    user: processing.getUser(),
+                    config: processing.getProcessingConfig(),
                     status: processing.getProcessingStatus(),
                     percentage: processing.getProcessingPercentage(),
                     log: processing.getProcessingLog(),
@@ -151,9 +151,9 @@ export class ProcessingUseCases {
             }
             return {
                 id_processing: processing.getProcessingId(),
-                video_dto: processing.getVideo().toDTO(),
-                user_dto: processing.getUser().toDTO(),
-                config_dto: processing.getProcessingConfig().toDTO(),
+                video: processing.getVideo(),
+                user: processing.getUser(),
+                config: processing.getProcessingConfig(),
                 status: processing.getProcessingStatus(),
                 percentage: processing.getProcessingPercentage(),
                 log: processing.getProcessingLog(),
@@ -187,9 +187,9 @@ export class ProcessingUseCases {
             }
             return {
                 id_processing: processing.getProcessingId(),
-                video_dto: processing.getVideo().toDTO(),
-                user_dto: processing.getUser().toDTO(),
-                config_dto: processing.getProcessingConfig().toDTO(),
+                video: processing.getVideo(),
+                user: processing.getUser(),
+                config: processing.getProcessingConfig(),
                 status: processing.getProcessingStatus(),
                 percentage: processing.getProcessingPercentage(),
                 log: processing.getProcessingLog(),

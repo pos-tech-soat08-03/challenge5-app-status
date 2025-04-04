@@ -9,13 +9,23 @@ import { ProcessingEntity } from "../../Core/Entity/ProcessingEntity";
 
 class LocalModel extends Model {
     public processingId!: string;
-    public processingVideo!: VideoValueObject;
-    public processingUser!: UserValueObject;
-    public processingConfig!: ProcessingConfigValueObject;
+    public userId!: string;
+    public processingVideo!: string;
+    public processingUser!: string;
+    public processingConfig!: string;
     public processingStatus!: ProcessingStatusEnum;
     public processingPercentage!: number;
     public processingLog!: string;
     public processingErrorCount!: number;
+    // public processingId!: string;
+    // public processingVideo!: VideoValueObject;
+    // public processingUser!: UserValueObject;
+    // public processingConfig!: ProcessingConfigValueObject;
+    // public processingStatus!: ProcessingStatusEnum;
+    // public processingPercentage!: number;
+    // public processingLog!: string;
+    // public processingErrorCount!: number;
+
 }
 
 export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
@@ -40,6 +50,10 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
                 primaryKey: true,
                 allowNull: false,
                 unique: true,
+            },
+            userId: {
+                type: DataTypes.STRING(36),
+                allowNull: false,
             },
             processingVideo: {
                 type: DataTypes.TEXT
@@ -86,6 +100,7 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
     public async setProcessing(processing: ProcessingEntity): Promise<ProcessingEntity | undefined> {
         return LocalModel.upsert({
             processingId: processing.getProcessingId(),
+            userId: processing.getUser().getUserId(),
             processingVideo: JSON.stringify(processing.getVideo()),
             processingUser: JSON.stringify(processing.getUser()),
             processingConfig: JSON.stringify(processing.getProcessingConfig()),
@@ -122,14 +137,14 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
         }
         return new ProcessingEntity(
             processing.processingId,
-            processing.processingVideo,
-            processing.processingUser,
-            processing.processingConfig,
+            VideoValueObject.fromDTO(JSON.parse(processing.processingVideo)), // Deserialize to VideoValueObject
+            UserValueObject.fromDTO(JSON.parse(processing.processingUser)), // Deserialize to UserValueObject
+            ProcessingConfigValueObject.fromDTO(JSON.parse(processing.processingConfig)), // Deserialize to ProcessingConfigValueObject
             processing.processingStatus,
             processing.processingPercentage,
             processing.processingLog,
             processing.processingErrorCount
-        );
+            );
     }
 
     public async getProcessingList(): Promise<Array<ProcessingEntity> | undefined> {
@@ -140,9 +155,9 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
         return processingList.map((processing) => {
             return new ProcessingEntity(
                 processing.processingId,
-                processing.processingVideo,
-                processing.processingUser,
-                processing.processingConfig,
+                VideoValueObject.fromDTO(JSON.parse(processing.processingVideo)), // Deserialize to VideoValueObject
+                UserValueObject.fromDTO(JSON.parse(processing.processingUser)), // Deserialize to UserValueObject
+                ProcessingConfigValueObject.fromDTO(JSON.parse(processing.processingConfig)), // Deserialize to ProcessingConfigValueObject    
                 processing.processingStatus,
                 processing.processingPercentage,
                 processing.processingLog,
@@ -154,9 +169,7 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
     public async getProcessingListByUser(userId: string): Promise<Array<ProcessingEntity> | undefined> {
         const processingList = await LocalModel.findAll({
             where: {
-                processingUser: {
-                    userId: userId,
-                },
+                userId: userId,
             },
         });
         if (!processingList) {
@@ -165,9 +178,9 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
         return processingList.map((processing) => {
             return new ProcessingEntity(
                 processing.processingId,
-                processing.processingVideo,
-                processing.processingUser,
-                processing.processingConfig,
+                VideoValueObject.fromDTO(JSON.parse(processing.processingVideo)), // Deserialize to VideoValueObject
+                UserValueObject.fromDTO(JSON.parse(processing.processingUser)), // Deserialize to UserValueObject
+                ProcessingConfigValueObject.fromDTO(JSON.parse(processing.processingConfig)), // Deserialize to ProcessingConfigValueObject
                 processing.processingStatus,
                 processing.processingPercentage,
                 processing.processingLog,

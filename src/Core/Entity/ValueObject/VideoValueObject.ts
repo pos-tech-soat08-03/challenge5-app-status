@@ -1,3 +1,5 @@
+import { VideoDTO } from "../../Types/DTO/VideoDTO";
+
 export class VideoValueObject {
 
     private readonly id: string;
@@ -52,7 +54,7 @@ export class VideoValueObject {
         return this.frameRate;
     }
 
-    public toDTO(): any {
+    public toDTO(): VideoDTO {
         return {
             id_video: this.id,
             title: this.titulo,

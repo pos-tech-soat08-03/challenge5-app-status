@@ -4,9 +4,9 @@ import { VideoDTO } from "./DTO/VideoDTO";
 
 export type ProcessingResponse = {
     id_processing: string | undefined;
-    video_dto: VideoDTO | undefined;
-    user_dto: UserDTO | undefined;
-    config_dto: ProcessingConfigDTO | undefined;
+    video: VideoDTO | undefined;
+    user: UserDTO | undefined;
+    config: ProcessingConfigDTO | undefined;
     status: string | undefined;
     percentage: number | undefined; 
     log: string | undefined;
