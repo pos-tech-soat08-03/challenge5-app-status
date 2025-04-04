@@ -1,6 +1,8 @@
 import express from "express";
 import { DefaultApiEndpoints } from "./Infrastructure/Api/ApisDefaultEndpoints";
-import { MySQLConnection } from "./Infrastructure/DB/Impl/MySQLConnection";
+import { MySQLConnection } from "./Infrastructure/Database/Impl/MySQLConnection";
+import { ApiProcessingStatus } from "./Infrastructure/Api/ApiProcessingStatus";
+import { ApiMsgOverride } from "./Infrastructure/Api/ApiMsgOverride";
 
 // Inicialização de banco de dados
 const mysqlConnection = new MySQLConnection({
@@ -18,7 +20,8 @@ const app = express();
 DefaultApiEndpoints.start(app);
 
 // Inicialização de endpoints da aplicação
-// ApiClientes.start(mysqlConnection, app);
+ApiProcessingStatus.start(mysqlConnection, app);
+ApiMsgOverride.start(mysqlConnection, app);
 
 // Inicialização do Express server
 app.listen(port, () => {

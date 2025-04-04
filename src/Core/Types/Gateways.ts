@@ -1,5 +1,5 @@
-import { ProcessingStatusInterface } from "../Interfaces/Gateway/ProcessingStatusInterface";
+import { ProcessingRepoGatewayInterface } from "../Interfaces/Gateway/ProcessingRepoGatewayInterface";
 
 export type Gateways = {
-  processingStatusGateway: ProcessingStatusInterface;
+  processingRepoGateway: ProcessingRepoGatewayInterface;
 };

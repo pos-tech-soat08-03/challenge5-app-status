@@ -1,0 +1,44 @@
+<mxfile host="65bd71144e">
+    <diagram id="iwjNPU3GBFT-8v7DI0nl" name="Page-1">
+        <mxGraphModel dx="1086" dy="366" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="Not Started" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="140" y="140" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="3" target="5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="edgeStyle=none;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;" edge="1" parent="1" source="3" target="7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;" edge="1" parent="1" source="3" target="10">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="400" y="90"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="3" value="Processing" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="140" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Done" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="540" y="140" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" style="edgeStyle=none;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="7" target="3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Interrupted" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="Error" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="540" y="60" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

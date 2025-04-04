@@ -1,0 +1,54 @@
+# Mensagem de processamento do video
+# filesize em bytes
+# duration em segundos
+# framerate em frames por segundo
+# interval em segundos
+
+{
+    "video": {
+        "id_video": "uuid-do-video",
+        "title": "Título do vídeo",
+        "description": "Descrição do vídeo",
+        "filename": "video.mp4",
+        "file_size": 104857600,
+        "full_path": "s3:/caminho/para/o/video.mp4",
+        "duration": 300,
+        "framerate": 30
+    },
+
+    "user": {
+        "id_usuario": "uuid-do-usuario",
+        "email": "Email do usuário"
+    },
+
+    "config": {
+        "output_format": "png",
+        "resolution": "1920x1080",
+        "interval": 20
+    }
+
+}
+
+# Mensagem de status do processamento 
+# status: NOT_STARTED | PROCESSING | COMPLETED
+# status_time: timestamp do status 
+# percentage: porcentagem do processamento (0.0 a 100.0)
+
+{ 
+    "id_video": "uuid-do-video",
+    "id_user": "uuid-do-usuario",
+    "status": "NOT_STARTED | PROCESSING | COMPLETED",
+    "status_time": "2023-10-01T12:00:00Z",
+    "percentage": 0.0,
+}
+
+# Mensagem de erro do processamento ou do carregamento
+# status: INTERRUPTED | ERROR
+
+{
+    "id_video": "uuid-do-video",
+    "id_user": "uuid-do-usuario",
+    "status": "ERROR | INTERRUPTED",
+    "status_time": "2023-10-01T12:00:00Z",
+    "error_message": "Mensagem de erro do processamento"
+}

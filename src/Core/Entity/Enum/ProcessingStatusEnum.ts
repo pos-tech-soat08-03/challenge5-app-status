@@ -1,0 +1,12 @@
+export enum ProcessingStatusEnum {
+
+    NOT_STARTED = 'NOT_STARTED',
+    PROCESSING = 'PROCESSING',
+    INTERRUPTED = 'INTERRUPTED',
+    COMPLETED = 'COMPLETED',
+    ERROR = 'ERROR',
+    CANCELLED = 'CANCELLED',
+    PENDING = 'PENDING',
+    FAILED = 'FAILED',
+
+}
