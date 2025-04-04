@@ -16,12 +16,16 @@ export class UserValueObject {
     public getEmail(): string {
         return this.email;
     }
-    
-    public toJson(): object {
+
+    public toDTO(): any {
         return {
             id_usuario: this.userId,
             email: this.email
         };
+    }
+
+    public static fromDTO(dto: any): UserValueObject {
+        return new UserValueObject(dto.id_usuario, dto.email);
     }
 
 }

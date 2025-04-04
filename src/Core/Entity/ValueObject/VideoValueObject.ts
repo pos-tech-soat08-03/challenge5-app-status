@@ -52,7 +52,7 @@ export class VideoValueObject {
         return this.frameRate;
     }
 
-    public toJson(): object {
+    public toDTO(): any {
         return {
             id_video: this.id,
             title: this.titulo,
@@ -63,6 +63,19 @@ export class VideoValueObject {
             duration: this.duration,
             framerate: this.frameRate
         };
+    }
+
+    public static fromDTO(videoDTO: any): VideoValueObject {
+        return new VideoValueObject(
+            videoDTO.id_video,
+            videoDTO.title,
+            videoDTO.description,
+            videoDTO.filename,
+            videoDTO.file_size,
+            videoDTO.full_path,
+            videoDTO.duration,
+            videoDTO.framerate
+        );
     }
 
 }

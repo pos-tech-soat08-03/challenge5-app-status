@@ -29,10 +29,9 @@ export class ProcessingEntity {
             this.setProcessingStatusPercentage(100);
             this.appendProcessingLog('Processing finished successfully at ' + new Date().toDateString());
         }
-        if (processingStatus === ProcessingStatusEnum.ERROR) {
-            this.setProcessingStatusPercentage(0);
+        if (processingStatus === ProcessingStatusEnum.INTERRUPTED) {
             this.processingErrorCount++;
-            this.appendProcessingLog(`Processing failed at ${new Date().toDateString()}. This is error #${this.processingErrorCount}.`);
+            this.appendProcessingLog(`Processing interrupted at ${new Date().toDateString()}. This is error #${this.processingErrorCount}.`);
         }
         if (this.processingStatus !== processingStatus) {
             this.appendProcessingLog(`Status changed from ${this.processingStatus} to ${processingStatus} at ` + new Date().toDateString());
@@ -83,16 +82,20 @@ export class ProcessingEntity {
         return this.processingLog;
     }
 
-    public toJson(): object {
+    public toReprocessingDTO(): any {
         return {
-            video: { ...this.processingVideo.toJson() },
-            user: { ...this.processingUser.toJson() },
-            processing_config: { ...this.processingConfig.toJson() },
+            video: { ...this.processingVideo.toDTO() },
+            user: { ...this.processingUser.toDTO() },
+            processing_config: { ...this.processingConfig.toDTO() },
         };
     }
 
     public getProcessingErrorCount(): number {
         return this.processingErrorCount;
+    }
+
+    public getStatusMsg(): string {
+        return `Processing Video ${this.processingVideo.getTitulo} for user ${this.processingUser.getEmail()} with status ${this.getProcessingStatus()} at ${this.getProcessingPercentage()}% (${this.getProcessingErrorCount()} retries).`;
     }
 
 }

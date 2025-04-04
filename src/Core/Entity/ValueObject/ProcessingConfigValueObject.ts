@@ -22,12 +22,20 @@ export class ProcessingConfigValueObject {
         return this.interval;
     }
 
-    public toJson(): object {
+    public toDTO(): any {
         return {
             output_format: this.outputFormat,
             resolution: this.resolution,
             interval: this.interval
         };
+    }
+
+    public static fromDTO(dto: any): ProcessingConfigValueObject {
+        return new ProcessingConfigValueObject(
+            dto.output_format,
+            dto.resolution,
+            dto.interval
+        );
     }
 
 }
