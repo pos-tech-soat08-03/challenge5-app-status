@@ -181,6 +181,7 @@ export class ProcessingUseCases {
                     processing.setProcessingStatus(ProcessingStatusEnum.ERROR);
                 }
             }
+            
             const updatedProcessing = await processingGateway.setProcessing(processing);
             if (!updatedProcessing) {
                 throw new Error("Error updating processing");

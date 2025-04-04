@@ -53,7 +53,6 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
             },
             userId: {
                 type: DataTypes.STRING(36),
-                allowNull: false,
             },
             processingVideo: {
                 type: DataTypes.TEXT
