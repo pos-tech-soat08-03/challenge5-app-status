@@ -10,22 +10,13 @@ import { ProcessingEntity } from "../../Core/Entity/ProcessingEntity";
 class LocalModel extends Model {
     public processingId!: string;
     public userId!: string;
-    public processingVideo!: string;
-    public processingUser!: string;
-    public processingConfig!: string;
+    public processingVideo!: JSON;
+    public processingUser!: JSON;
+    public processingConfig!: JSON;
     public processingStatus!: ProcessingStatusEnum;
     public processingPercentage!: number;
     public processingLog!: string;
     public processingErrorCount!: number;
-    // public processingId!: string;
-    // public processingVideo!: VideoValueObject;
-    // public processingUser!: UserValueObject;
-    // public processingConfig!: ProcessingConfigValueObject;
-    // public processingStatus!: ProcessingStatusEnum;
-    // public processingPercentage!: number;
-    // public processingLog!: string;
-    // public processingErrorCount!: number;
-
 }
 
 export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
@@ -48,8 +39,6 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
             processingId: {
                 type: DataTypes.STRING(36),
                 primaryKey: true,
-                allowNull: false,
-                unique: true,
             },
             userId: {
                 type: DataTypes.STRING(36),
@@ -134,16 +123,39 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
         if (!processing) {
             return undefined;
         }
+
+        const procVideo = JSON.parse(processing.processingVideo as any);
+        const procUser = JSON.parse(processing.processingUser as any);
+        const procConfig = JSON.parse(processing.processingConfig as any);
+
         return new ProcessingEntity(
             processing.processingId,
-            VideoValueObject.fromDTO(JSON.parse(processing.processingVideo)), // Deserialize to VideoValueObject
-            UserValueObject.fromDTO(JSON.parse(processing.processingUser)), // Deserialize to UserValueObject
-            ProcessingConfigValueObject.fromDTO(JSON.parse(processing.processingConfig)), // Deserialize to ProcessingConfigValueObject
+            new VideoValueObject(
+                procVideo.id,
+                procVideo.titulo,
+                procVideo.descricao,
+                procVideo.fileName,
+                procVideo.fileSize,
+                procVideo.fullPath,
+                procVideo.duration,
+                procVideo.frameRate
+            ),
+            new UserValueObject(
+                procUser.userId,
+                procUser.email
+            ),
+            new ProcessingConfigValueObject(
+                procConfig.outputFormat,
+                procConfig.resolution,
+                procConfig.interval
+
+            ),
             processing.processingStatus,
             processing.processingPercentage,
             processing.processingLog,
             processing.processingErrorCount
-            );
+        );
+
     }
 
     public async getProcessingList(): Promise<Array<ProcessingEntity> | undefined> {
@@ -152,17 +164,37 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
             return undefined;
         }
         return processingList.map((processing) => {
+            const procVideo = JSON.parse(processing.processingVideo as any);
+            const procUser = JSON.parse(processing.processingUser as any);
+            const procConfig = JSON.parse(processing.processingConfig as any);
             return new ProcessingEntity(
                 processing.processingId,
-                VideoValueObject.fromDTO(JSON.parse(processing.processingVideo)), // Deserialize to VideoValueObject
-                UserValueObject.fromDTO(JSON.parse(processing.processingUser)), // Deserialize to UserValueObject
-                ProcessingConfigValueObject.fromDTO(JSON.parse(processing.processingConfig)), // Deserialize to ProcessingConfigValueObject    
+                new VideoValueObject(
+                    procVideo.id,
+                    procVideo.titulo,
+                    procVideo.descricao,
+                    procVideo.fileName,
+                    procVideo.fileSize,
+                    procVideo.fullPath,
+                    procVideo.duration,
+                    procVideo.frameRate
+                ),
+                new UserValueObject(
+                    procUser.userId,
+                    procUser.email
+                ),
+                new ProcessingConfigValueObject(
+                    procConfig.outputFormat,
+                    procConfig.resolution,
+                    procConfig.interval
+    
+                ),
                 processing.processingStatus,
                 processing.processingPercentage,
                 processing.processingLog,
                 processing.processingErrorCount
             );
-        });
+            });
     }
 
     public async getProcessingListByUser(userId: string): Promise<Array<ProcessingEntity> | undefined> {
@@ -175,17 +207,37 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
             return undefined;
         }
         return processingList.map((processing) => {
+            const procVideo = JSON.parse(processing.processingVideo as any);
+            const procUser = JSON.parse(processing.processingUser as any);
+            const procConfig = JSON.parse(processing.processingConfig as any);
             return new ProcessingEntity(
                 processing.processingId,
-                VideoValueObject.fromDTO(JSON.parse(processing.processingVideo)), // Deserialize to VideoValueObject
-                UserValueObject.fromDTO(JSON.parse(processing.processingUser)), // Deserialize to UserValueObject
-                ProcessingConfigValueObject.fromDTO(JSON.parse(processing.processingConfig)), // Deserialize to ProcessingConfigValueObject
+                new VideoValueObject(
+                    procVideo.id,
+                    procVideo.titulo,
+                    procVideo.descricao,
+                    procVideo.fileName,
+                    procVideo.fileSize,
+                    procVideo.fullPath,
+                    procVideo.duration,
+                    procVideo.frameRate
+                ),
+                new UserValueObject(
+                    procUser.userId,
+                    procUser.email
+                ),
+                new ProcessingConfigValueObject(
+                    procConfig.outputFormat,
+                    procConfig.resolution,
+                    procConfig.interval
+    
+                ),
                 processing.processingStatus,
                 processing.processingPercentage,
                 processing.processingLog,
                 processing.processingErrorCount
             );
-        });
+            });
     }
 
 }
