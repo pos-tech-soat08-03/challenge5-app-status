@@ -16,7 +16,8 @@ export class ProcessingController {
             if (!processingList) {
                 throw new Error("No processing found");
             }
-            return ProcessingAdapter.adaptProcessingJsonValidListResponse(processingList);
+            //return ProcessingAdapter.adaptProcessingJsonValidListResponse(processingList);
+            return ProcessingAdapter.adaptProcessingHtmlListResponse(processingList);
         }
         catch (error: any) {
             throw new Error(error.message);
@@ -30,7 +31,8 @@ export class ProcessingController {
             if (!processingList) {
                 throw new Error("No processing found");
             }
-            return ProcessingAdapter.adaptProcessingJsonValidListResponse(processingList);
+            //return ProcessingAdapter.adaptProcessingJsonValidListResponse(processingList);
+            return ProcessingAdapter.adaptProcessingHtmlListResponse(processingList);
         }
         catch (error: any) {
             throw new Error(error.message);
@@ -44,7 +46,8 @@ export class ProcessingController {
             if (!processing) {
                 throw new Error("No processing found");
             }
-            return ProcessingAdapter.adaptProcessingJsonValidResponse(processing);
+            //return ProcessingAdapter.adaptProcessingJsonValidResponse(processing);
+            return ProcessingAdapter.adaptProcessingHtmlResponse(processing);
         }
         catch (error: any) {
             throw new Error(error.message);
