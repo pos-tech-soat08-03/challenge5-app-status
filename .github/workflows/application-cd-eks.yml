@@ -60,9 +60,9 @@ jobs:
     - name: Verify AWS CLI Configuration
       run: aws sts get-caller-identity
 
-    - name: Download terraform_infrastructure.json from S3 infrastructure challenge5-infra/terraform.tfstate
+    - name: Download terraform_infrastructure.json from S3 infrastructure jackapp-infra/terraform.tfstate
       run: | 
-        aws s3 cp s3://${{ github.event.inputs.aws_backend_bucket }}/challenge5-infra/terraform.tfstate terraform_infrastructure.json 
+        aws s3 cp s3://${{ github.event.inputs.aws_backend_bucket }}/jackapp-infra/terraform.tfstate terraform_infrastructure.json 
         
     - name: Extract EKS Cluster Name 
       id: extract-cluster-name
