@@ -2,5 +2,7 @@ import { StatusMsgValueObject } from "../../Entity/ValueObject/StatusMsgValueObj
 
 export interface StatusMsgGatewayInteface {
 
-    getStatusMessage (): Promise <StatusMsgValueObject| undefined>;
+    getNextStatusMessage (): Promise <StatusMsgValueObject| undefined>;
+    deleteStatusMessage (statusId: string): Promise <void>;
+
 }

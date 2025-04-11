@@ -16,6 +16,9 @@
   "author": "Grupo 3 SOAT8",
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.787.0",
+    "@aws-sdk/client-sns": "^3.787.0",
+    "@aws-sdk/client-sqs": "^3.787.0",
     "@types/jest": "^29.5.13",
     "axios": "^1.8.4",
     "dotenv-cli": "^7.4.1",
@@ -30,6 +33,7 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.4",
     "@types/swagger-ui-express": "^4.1.6",
+    "dotenv": "^16.5.0",
     "jest-sonar-reporter": "^2.0.0",
     "nodemon": "^3.1.7",
     "sequelize": "^6.37.6",

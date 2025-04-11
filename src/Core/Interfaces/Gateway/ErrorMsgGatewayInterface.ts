@@ -2,6 +2,7 @@ import { ErrorMsgValueObject } from "../../Entity/ValueObject/ErrorMsgValueObjec
 
 export interface ErrorMsgGatewayInterface {
 
-    getErrorMessage (): Promise <ErrorMsgValueObject| undefined>;
+    getNextErrorMessage (): Promise <ErrorMsgValueObject| undefined>;
+    deleteErrorMessage (errorId: string): Promise <void>;   
 
 }
