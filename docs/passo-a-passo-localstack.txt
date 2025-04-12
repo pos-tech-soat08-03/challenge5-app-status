@@ -1,37 +1,19 @@
-1. Pré-requisitos
-Node.js: Instalado (ex.: v18 ou superior).
-Docker: Instalado para rodar o LocalStack.
-FFmpeg: Instalado no sistema:
-sudo apt install ffmpeg  # No Ubuntu, por exemplo
-ffmpeg -version         # Verifica a instalação
-Dependências Node: Certifique-se de que o package.json inclui:
-{
-  "dependencies": {
-    "@aws-sdk/client-s3": "^3.x.x",
-    "@aws-sdk/client-sqs": "^3.x.x",
-    "@aws-sdk/client-sns": "^3.x.x",
-    "@aws-sdk/s3-request-presigner": "^3.x.x",
-    "fluent-ffmpeg": "^2.x.x",
-    "archiver": "^5.x.x",
-    "uuid": "^9.x.x",
-    "dotenv": "^16.x.x"
-  },
-  "devDependencies": {
-    "typescript": "^5.x.x",
-    "@types/node": "^20.x.x",
-    "@types/uuid": "^9.x.x",
-    "@types/fluent-ffmpeg": "^2.x.x",
-    "@types/archiver": "^5.x.x"
-  }
-}
 
 2. Configuração do LocalStack
 docker-compose up -d
 
-NODE_ENV=local
-AWS_REGION=us-east-1
+export NODE_ENV=local
+export AWS_REGION=us-east-1
 SQS_QUEUE_URL=http://localhost:4566/000000000000/<FILA> <- definir fila
 SNS_TOPIC_ARN=arn:aws:sns:us-east-1:000000000000:<TOPICO> <- arn definido
+
+
+aws --endpoint-url=http://localhost:4566 sns create-topic --name canal-de-processamento
+aws --endpoint-url=http://localhost:4566 sns create-topic --name status-de-processamento
+aws --endpoint-url=http://localhost:4566 sns create-topic --name erro-de-processamento
+
+
+
 
 3. Criar Recursos no LocalStack
 aws --endpoint-url=http://localhost:4566 s3 mb s3://<BUCKET> --profile localstack <- cria bucket

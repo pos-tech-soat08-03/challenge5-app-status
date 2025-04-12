@@ -1,3 +1,5 @@
+// original do serviço de processamento - revisar
+
 import { SNSClient, SNSClientConfig } from "@aws-sdk/client-sns";
 
 export class SnsConfig {

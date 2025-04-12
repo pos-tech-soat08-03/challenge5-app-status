@@ -1,3 +1,5 @@
+// original do serviço de processamento - revisar
+
 import { S3Client, S3ClientConfig } from "@aws-sdk/client-s3";
 
 export class S3Config {

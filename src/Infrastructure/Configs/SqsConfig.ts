@@ -1,3 +1,5 @@
+// original do serviço de processamento - revisar
+
 import { SQSClient, SQSClientConfig } from "@aws-sdk/client-sqs";
 
 export class SqsConfig {
