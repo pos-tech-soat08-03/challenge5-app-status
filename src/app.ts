@@ -26,12 +26,21 @@ import { SubscribeSNSwithSQSSetup } from "./Infrastructure/Services/Setup/Subscr
 //   "Worker iniciado com sucesso. Aguardando mensagens na fila SQS..."
 // );
 
+// Inicialização de banco de dados
+const mysqlConnection = new MySQLConnection({
+  hostname: process.env.DATABASE_HOST ?? "ERROR",
+  portnumb: Number(process.env.DATABASE_PORT ?? "ERROR"),
+  database: process.env.DATABASE_NAME ?? "ERROR",
+  username: process.env.DATABASE_USER ?? "ERROR",
+  password: process.env.DATABASE_PASS ?? "ERROR",
+  databaseType: 'mysql'
+});
+
 // Configurações AWS
 const awsAccessKeyID = process.env.AWS_ACCESS_KEY_ID ?? "test";
 const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY ?? "test";
 const awsRegion = process.env.AWS_REGION ?? "us-east-1";
-const sqsEndpoint =
-  process.env.SQS_ENDPOINT ?? "http://localhost:4566"; // LocalStack
+const sqsEndpoint = process.env.SQS_ENDPOINT ?? "http://localstack:4566";
 const AWSConfig = {
   accessKeyId: awsAccessKeyID,
   secretAccessKey: awsSecretAccessKey,
@@ -55,17 +64,6 @@ errorMsgSetup.setupSubscription(
   process.env.SNS_ERROR_TOPIC_ARN ?? "arn:aws:sns:us-east-1:000000000000:erro-de-processamento",
   process.env.SQS_STATUS_QUEUE_NAME ?? "fila-erros"
 );
-
-
-// Inicialização de banco de dados
-const mysqlConnection = new MySQLConnection({
-  hostname: process.env.DATABASE_HOST ?? "ERROR",
-  portnumb: Number(process.env.DATABASE_PORT ?? "0"),
-  database: process.env.DATABASE_NAME ?? "ERROR",
-  username: process.env.DATABASE_USER ?? "ERROR",
-  password: process.env.DATABASE_PASS ?? "ERROR",
-  databaseType: 'mysql'
-});
 
 // Inicialização de framework Express + endpoints default
 const port = Number(process.env.SERVER_PORT ?? "3000");
