@@ -3,7 +3,8 @@ name: Application CD - Image Deployment in Docker Hub
 on:
   push:
     branches:
-      - "main"        
+      - "main"
+      - "fix*"
 
 jobs:
   build:
@@ -24,3 +25,4 @@ jobs:
         with:
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/jackapp-status:latest
+
