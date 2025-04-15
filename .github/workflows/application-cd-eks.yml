@@ -67,7 +67,7 @@ jobs:
     - name: Extract EKS Cluster Name 
       id: extract-cluster-name
       run: | 
-        CLUSTER_NAME=$(jq -r '.outputs.challenge5_cluster_name.value' terraform_infrastructure.json)
+        CLUSTER_NAME=$(jq -r '.outputs.jackapp_cluster_name.value' terraform_infrastructure.json)
         echo "CLUSTER_NAME=$CLUSTER_NAME" >> $GITHUB_OUTPUT
 
     - name: Update kubeconfig 
