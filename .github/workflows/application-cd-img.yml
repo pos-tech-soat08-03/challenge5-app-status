@@ -3,7 +3,8 @@ name: Application CD - Image Deployment in Docker Hub
 on:
   push:
     branches:
-      - "main"        
+      - "main"
+      - "fix*"
 
 jobs:
   build:
