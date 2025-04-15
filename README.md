@@ -31,10 +31,10 @@ O repositório possui um workflow de CI/CD configurado com o Github Actions, que
 O repositório possui a integração com SonarCloud, que avalia qualidade de código e indica a cobertura geral de testes da aplicação.
 
 O Projeto no SonarCloud pode ser acessado em:
- https://sonarcloud.io/project/overview?id=pos-tech-soat08-03_challenge5-app-status
+ https://sonarcloud.io/project/overview?id=pos-tech-soat08-03_jackapp-app-status
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pos-tech-soat08-03_challenge5-app-status&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=pos-tech-soat08-03_challenge5-app-status)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=pos-tech-soat08-03_challenge5-app-status&metric=coverage)](https://sonarcloud.io/summary/new_code?id=pos-tech-soat08-03_challenge5-app-status)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pos-tech-soat08-03_jackapp-app-status&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=pos-tech-soat08-03_jackapp-app-status)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=pos-tech-soat08-03_jackapp-app-status&metric=coverage)](https://sonarcloud.io/summary/new_code?id=pos-tech-soat08-03_jackapp-app-status)
 
 ## Cobertura de Testes
 
@@ -48,7 +48,7 @@ O repositório possui um workflow de CI/CD configurado com o Github Actions, que
 
 O workflow de CI é acionado a cada push no repositório.
 
-[As ultimas execuções do CI podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/challenge5-app-status/actions/workflows/application-ci.yml)
+[As ultimas execuções do CI podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/jackapp-status/actions/workflows/application-ci.yml)
 
 <mark>TODO - Inserir Imagem</mark>
 
@@ -57,12 +57,12 @@ O workflow de CI é acionado a cada push no repositório.
 O workflow de CD possui duas etapas:
 
 - A primeira acontece ao finalizar o merge, e realiza o deploy da aplicação no Docker Hub.
-[As ultimas execuções do CD de Imagem podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/challenge5-app-status/actions/workflows/application-cd-img.yml)
+[As ultimas execuções do CD de Imagem podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/jackapp-status/actions/workflows/application-cd-img.yml)
 
 <mark>TODO - Inserir Imagem</mark>
 
 - A segunda parte é manual, e realiza o deploy da aplicação no Cluster EKS na AWS.
-[As ultimas execuções do CD EKS podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/challenge5-app-status/actions/workflows/application-cd-eks.yml)
+[As ultimas execuções do CD EKS podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/jackapp-status/actions/workflows/application-cd-eks.yml)
 
 <mark>TODO - Inserir Imagem</mark>
 
@@ -71,7 +71,7 @@ O workflow de CD possui duas etapas:
 Para subir os recursos Serverless com o Github Actions, siga os passos abaixo:
 
 1. Acesse o repositório do Github e clique na aba `Actions`, ou acesse diretamente o link abaixo:
-https://github.com/pos-tech-soat08-03/challenge5-app-status/actions
+https://github.com/pos-tech-soat08-03/jackapp-status/actions
 
 2. Clique no workflow `Application CD - Deploy no EKS` e em seguida clique no botão `Run workflow`
 
@@ -91,7 +91,7 @@ Ao final da execução do workflow a aplicação terá os manifestos aplicados v
 
 A aplicação também estará disponível no endereço do ALB, que será informado ao final da execução do workflow - porém o acesso à aplicação será restrito por segurança via API Gateway. 
 
-- Acesse o repositório de [Serverless](https://github.com/pos-tech-soat08-03/challenge5-serverless) para mais informações sobre a configuração do API Gateway 
+- Acesse o repositório de [Serverless](https://github.com/pos-tech-soat08-03/jackapp-serverless) para mais informações sobre a configuração do API Gateway 
 
 ### Para gerenciar a aplicação no Cluster EKS a partir de um ambiente local
 
@@ -101,7 +101,7 @@ Para configurar o acesso ao cluster EKS, siga os passos abaixo:
 
 ``` bash
 minikube start
-aws eks update-kubeconfig --name challenge5 --region us-east-1
+aws eks update-kubeconfig --name jackapp --region us-east-1
 kubectl config get-contexts
 ```
 
@@ -117,8 +117,8 @@ A partir deste ponto você poderá gerenciar o Cluster EKS a partir do seu ambie
 ``` bash
 kubectl get nodes
 kubectl -- get pods -A
-kubectl logs challenge5-deployment-xxxxxxxxx
-kubectl get svc svc-challenge5
+kubectl logs jackapp-deployment-xxxxxxxxx
+kubectl get svc svc-jackapp
 ```
 
 ### Subindo a aplicação manualmente (Desenvolvimento) - Docker
@@ -142,24 +142,24 @@ Para iniciar o _build_ da aplicação já atendendo aos pré-requisitos e rodar 
 No diretório /manifesto_kubernetes
 
 ``` bash
-kubectl apply -f svc-challenge5-database.yaml
-kubectl apply -f pvc-challenge5-database.yaml
-kubectl apply -f challenge5-database-configmap.yaml
-kubectl apply -f challenge5-database-deployment.yaml
-kubectl apply -f svc-challenge5.yaml
-kubectl apply -f challenge5-configmap.yaml
-kubectl apply -f challenge5-deployment.yaml
-kubectl apply -f challenge5-hpa.yaml
+kubectl apply -f svc-jackapp-database.yaml
+kubectl apply -f pvc-jackapp-database.yaml
+kubectl apply -f jackapp-database-configmap.yaml
+kubectl apply -f jackapp-database-deployment.yaml
+kubectl apply -f svc-jackapp.yaml
+kubectl apply -f jackapp-configmap.yaml
+kubectl apply -f jackapp-deployment.yaml
+kubectl apply -f jackapp-hpa.yaml
 ```
 Desta forma inciará: 
-- service/svc-challenge5-database
-- configmap/challenge5-database-configmap
-- persistentvolumeclaim/pvc-challenge5-database
-- deployment.apps/challenge5-database-deployment
-- service/svc-challenge5
-- configmap/challenge5-configmap
-- deployment.apps/challenge5-deployment
-- horizontalpodautoscaler.autoscaling/challenge5-hp
+- service/svc-jackapp-database
+- configmap/jackapp-database-configmap
+- persistentvolumeclaim/pvc-jackapp-database
+- deployment.apps/jackapp-database-deployment
+- service/svc-jackapp
+- configmap/jackapp-configmap
+- deployment.apps/jackapp-deployment
+- horizontalpodautoscaler.autoscaling/jackapp-hp
 
 ### Verificar se está funcionando
 

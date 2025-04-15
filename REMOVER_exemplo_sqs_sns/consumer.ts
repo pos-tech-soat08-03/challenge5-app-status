@@ -27,6 +27,7 @@ const processMessage = async (message: string) => {
     // if (Math.random() < 0.3) {
     //     throw new Error("Erro no processamento!");
     // }
+    //
 
     console.log("Processamento concluído.\n\n");
 
