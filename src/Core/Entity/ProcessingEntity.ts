@@ -2,6 +2,7 @@ import { ProcessingConfigValueObject } from './ValueObject/ProcessingConfigValue
 import { ProcessingStatusEnum } from './Enum/ProcessingStatusEnum';
 import { UserValueObject } from './ValueObject/UserValueObject';
 import { VideoValueObject } from './ValueObject/VideoValueObject';
+import { ProcessingDTO } from '../Types/DTO/ProcessingDTO';
 
 export class ProcessingEntity {
     private readonly processingId: string;
@@ -96,6 +97,19 @@ export class ProcessingEntity {
 
     public getStatusMsg(): string {
         return `Processing Video ${this.processingVideo.getTitulo} for user ${this.processingUser.getEmail()} with status ${this.getProcessingStatus()} at ${this.getProcessingPercentage()}% (${this.getProcessingErrorCount()} retries).`;
+    }
+
+    public static fromDTO(processingDTO: ProcessingDTO): ProcessingEntity {
+        const processingId = processingDTO.video.id_video;
+        const processingVideo = VideoValueObject.fromDTO(processingDTO.video);
+        const processingUser = UserValueObject.fromDTO(processingDTO.user);
+        const processingConfig = ProcessingConfigValueObject.fromDTO(processingDTO.config);
+        return new ProcessingEntity(
+            processingId,
+            processingVideo,
+            processingUser,
+            processingConfig
+        );
     }
 
 }

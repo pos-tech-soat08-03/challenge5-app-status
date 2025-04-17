@@ -1,9 +1,8 @@
 import { ProcessingEntity } from "../../Entity/ProcessingEntity";
 
-export interface ProcessingMsgGatewayInterface {
+export interface ProcessingReadMsgGatewayInterface {
  
     getNextProcessingMessage (): Promise <ProcessingEntity | undefined>;
-    sendProcessingMessage (processing : ProcessingEntity): Promise <ProcessingEntity | undefined>;
     deleteProcessingMessage (processingId: string): Promise <void>;
 
 }

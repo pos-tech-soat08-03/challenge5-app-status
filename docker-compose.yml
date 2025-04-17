@@ -5,7 +5,7 @@ services:
     image: challenge5-app-status:1.0.0
     container_name: challenge5
     environment:
-      NODE_ENV: "development"
+      NODE_ENV: "local"
       SERVER_PORT: "3000"
       DATABASE_HOST: "challenge5_database"
       DATABASE_PORT: "3306"

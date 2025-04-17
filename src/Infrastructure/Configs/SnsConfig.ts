@@ -22,8 +22,8 @@ export class SnsConfig {
     this.topicArn =
       process.env.SNS_TOPIC_ARN ??
       (isLocal
-        ? "arn:aws:sns:us-east-1:000000000000:VideoStatusTopic"
-        : "arn:aws:sns:us-east-1:SEU_ACCOUNT_ID:VideoStatusTopic");
+        ? "arn:aws:sns:us-east-1:000000000000:canal-de-processamento"
+        : "arn:aws:sns:us-east-1:ACCOUNT_ID:canal-de-processamento");
   }
 
   getClient(): SNSClient {

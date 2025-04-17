@@ -1,11 +1,10 @@
-// // src/Application/Adapters/SqsServiceImpl.ts
 // import {
 //   ReceiveMessageCommand,
 //   DeleteMessageCommand,
 // } from "@aws-sdk/client-sqs";
+
 // import { SqsConfig } from "../Configs/SqsConfig";
-// import { QueueServiceInterface } from "../../Core/Interfaces/Services/QueueServiceInterface";
-// import { MessageVideoData } from "../../Core/Entity/MessageVideoData";
+
 
 // export class SqsServiceImpl implements QueueServiceInterface {
 //   constructor(private readonly sqsConfig: SqsConfig) {}

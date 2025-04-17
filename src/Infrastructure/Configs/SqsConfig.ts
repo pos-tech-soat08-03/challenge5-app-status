@@ -6,12 +6,8 @@ export class SqsConfig {
   private readonly client: SQSClient;
   private readonly queueUrl: string;
 
-  constructor() {
+  constructor(filaSqs: string) {
     const isLocal = process.env.NODE_ENV === "local";
-    console.log("NODE_ENV:", process.env.NODE_ENV);
-    console.log("SQS_QUEUE_URL:", process.env.SQS_QUEUE_URL);
-    console.log("Endpoint:", isLocal ? "http://localhost:4566" : "AWS real");
-
     const config: SQSClientConfig = {
       region: process.env.AWS_REGION || "us-east-1",
       endpoint: isLocal ? "http://localhost:4566" : undefined, // Endpoint do LocalStack
@@ -26,8 +22,8 @@ export class SqsConfig {
     this.queueUrl =
       process.env.SQS_QUEUE_URL ??
       (isLocal
-        ? "http://localhost:4566/000000000000/sua-fila-sqs"
-        : "https://sqs.us-east-1.amazonaws.com/SEU_ACCOUNT_ID/sua-fila-sqs");
+        ? `http://localhost:4566/000000000000/${filaSqs}`
+        : `https://sqs.us-east-1.amazonaws.com/SEU_ACCOUNT_ID/${filaSqs}` );
   }
 
   getClient(): SQSClient {
