@@ -16,6 +16,7 @@ import { EmailServiceMock } from "./Infrastructure/Services/EmailServiceMock";
 import { QueueWorkerErroSQS } from "./Infrastructure/QueueWorker/QueueWorkerErrorSQS";
 import { QueueWorkerStatusSQS } from "./Infrastructure/QueueWorker/QueueWorkerStatusSQS";
 import { ErrorQueueHandler } from "./Application/Controller/ErrorQueueHandler";
+import { StatusQueueHandler } from "./Application/Controller/StatusQueueHandler";
 
 // Inicialização de variáveis de ambiente
 dotenv.config();
@@ -46,15 +47,15 @@ console.log("Worker iniciado com sucesso. Aguardando mensagens na fila SQS de Pr
 
 const sqsConfigErro = new SqsConfig("fila-erro");
 const queueErroGW = new SqsErrorMsgImpl(sqsConfigErro);
-const queueWorkerErro = new QueueWorkerErroSQS(new ErrorQueueHandler(mysqlConnection, queueErroGW));
+const queueWorkerErro = new QueueWorkerErroSQS(new ErrorQueueHandler(mysqlConnection, queueErroGW, notificationGateway, emailAlert));
 queueWorkerErro.start();
 console.log("Worker iniciado com sucesso. Aguardando mensagens na fila SQS de Erro...");
 
-// const sqsConfigStatus = new SqsConfig("fila-status");
-// const queueStatusGW = new SqsStatusMsgImpl(sqsConfigStatus);
-// const queueWorkerStatus = new QueueWorkerStatusSQS(new StatusQueueHandler(mysqlConnection, queueStatusGW, notificationGateway, emailAlert));
-// queueWorkerStatus.start();
-// console.log("Worker iniciado com sucesso. Aguardando mensagens na fila SQS de Status...");
+const sqsConfigStatus = new SqsConfig("fila-status");
+const queueStatusGW = new SqsStatusMsgImpl(sqsConfigStatus);
+const queueWorkerStatus = new QueueWorkerStatusSQS(new StatusQueueHandler(mysqlConnection, queueStatusGW));
+queueWorkerStatus.start();
+console.log("Worker iniciado com sucesso. Aguardando mensagens na fila SQS de Status...");
 
 // Inicialização de framework Express + endpoints default
 const port = Number(process.env.SERVER_PORT ?? "3000");

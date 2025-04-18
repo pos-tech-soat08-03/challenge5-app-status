@@ -3,6 +3,7 @@ import { ProcessingStatusEnum } from './Enum/ProcessingStatusEnum';
 import { UserValueObject } from './ValueObject/UserValueObject';
 import { VideoValueObject } from './ValueObject/VideoValueObject';
 import { ProcessingDTO } from '../Types/DTO/ProcessingDTO';
+import { ProcessingResponse } from '../Types/Responses';
 
 export class ProcessingEntity {
     private readonly processingId: string;
@@ -109,6 +110,19 @@ export class ProcessingEntity {
             processingVideo,
             processingUser,
             processingConfig
+        );
+    }
+
+    public static fromResponse(pr: ProcessingResponse): ProcessingEntity {
+        const processingId = pr.id_processing;
+        const processingVideo = VideoValueObject.fromDTO(pr.video);
+        const processingUser = UserValueObject.fromDTO(pr.user);
+        const processingConfig = ProcessingConfigValueObject.fromDTO(pr.config);
+        return new ProcessingEntity(
+            processingId || '',
+            processingVideo,
+            processingUser,
+            processingConfig,
         );
     }
 

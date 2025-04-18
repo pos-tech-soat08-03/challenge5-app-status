@@ -5,15 +5,12 @@ import {
 
 import { SqsConfig } from "../Configs/SqsConfig";
 import { StatusReadMsgGatewayInterface } from "../../Core/Interfaces/Gateway/StatusReadMsgGatewayInterface";
-import { StatusMsgValueObject } from "../../Core/Entity/ValueObject/StatusMsgValueObject";
 import { StatusMsgDTO } from "../../Core/Types/DTO/StatusMsgDTO";
-import { ProcessingStatusEnum } from "../../Core/Entity/Enum/ProcessingStatusEnum";
-
 
 export class SqsStatusMsgImpl implements StatusReadMsgGatewayInterface {
   constructor(private readonly sqsConfig: SqsConfig) {}
 
-  async getNextStatusMessage(): Promise <StatusMsgValueObject | undefined> {
+  async getNextStatusMessage(): Promise <StatusMsgDTO | undefined> {
     const command = new ReceiveMessageCommand({
       QueueUrl: this.sqsConfig.getQueueUrl(),
       MaxNumberOfMessages: 1,
@@ -34,14 +31,7 @@ export class SqsStatusMsgImpl implements StatusReadMsgGatewayInterface {
     });
     await this.sqsConfig.getClient().send(delCommand);
 
-    return new StatusMsgValueObject(
-        bodyToDTO.id_video,
-        bodyToDTO.id_usuario,
-        bodyToDTO.status as ProcessingStatusEnum,
-        bodyToDTO.status_time,
-        bodyToDTO.percentage,
-        bodyToDTO.message
-    );
+    return bodyToDTO;
   }	
 
 }
