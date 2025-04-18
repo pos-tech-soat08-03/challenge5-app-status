@@ -1,10 +1,5 @@
-import { ProcessingEntity } from "../../Core/Entity/ProcessingEntity";
-import { EmailServiceInterface } from "../../Core/Interfaces/Gateway/EmailServiceInterface";
-import { ProcessingPostMsgGatewayInterface } from "../../Core/Interfaces/Gateway/ProcessingPostMsgGatewayInterface";
-import { ProcessingReadMsgGatewayInterface } from "../../Core/Interfaces/Gateway/ProcessingReadMsgGatewayInterface";
 import { StatusReadMsgGatewayInterface } from "../../Core/Interfaces/Gateway/StatusReadMsgGatewayInterface";
 import { IDbConnection } from "../../Core/Interfaces/IDbConnection";
-import { ProcessingDTO } from "../../Core/Types/DTO/ProcessingDTO";
 import { StatusMsgDTO } from "../../Core/Types/DTO/StatusMsgDTO";
 import { ProcessingUseCases } from "../../Core/Usecase/ProcessingUseCases";
 

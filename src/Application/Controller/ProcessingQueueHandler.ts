@@ -1,4 +1,3 @@
-import { ProcessingEntity } from "../../Core/Entity/ProcessingEntity";
 import { ProcessingReadMsgGatewayInterface } from "../../Core/Interfaces/Gateway/ProcessingReadMsgGatewayInterface";
 import { IDbConnection } from "../../Core/Interfaces/IDbConnection";
 import { ProcessingDTO } from "../../Core/Types/DTO/ProcessingDTO";

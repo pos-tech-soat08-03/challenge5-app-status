@@ -1,5 +1,4 @@
 import { ProcessingEntity } from "../../Core/Entity/ProcessingEntity";
-import { VideoValueObject } from "../../Core/Entity/ValueObject/VideoValueObject";
 import { EmailServiceInterface } from "../../Core/Interfaces/Gateway/EmailServiceInterface";
 import { ErrorReadMsgGatewayInterface } from "../../Core/Interfaces/Gateway/ErrorReadMsgGatewayInterface";
 import { ProcessingPostMsgGatewayInterface } from "../../Core/Interfaces/Gateway/ProcessingPostMsgGatewayInterface";
@@ -29,7 +28,7 @@ export class ErrorQueueHandler {
 
         if (processingStatusUpdated.success === false) {
           this.emailAlert.sendEmail(
-            processingStatusUpdated.user?.email || "",
+            processingStatusUpdated.user?.email ?? "",
             "Erro no processamento",
             `Ocorreu um erro no processamento do vídeo ${processingStatusUpdated.video?.title}. Detalhes: ${processingStatusUpdated.error_message}`
           )
