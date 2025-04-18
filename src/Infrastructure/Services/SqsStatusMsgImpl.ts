@@ -1,37 +1,49 @@
-// import {
-//   ReceiveMessageCommand,
-//   DeleteMessageCommand,
-// } from "@aws-sdk/client-sqs";
+import {
+  ReceiveMessageCommand,
+  DeleteMessageCommand,
+} from "@aws-sdk/client-sqs";
 
-// import { SqsConfig } from "../Configs/SqsConfig";
+import { SqsConfig } from "../Configs/SqsConfig";
+import { StatusReadMsgGatewayInterface } from "../../Core/Interfaces/Gateway/StatusReadMsgGatewayInterface";
+import { StatusMsgValueObject } from "../../Core/Entity/ValueObject/StatusMsgValueObject";
+import { StatusMsgDTO } from "../../Core/Types/DTO/StatusMsgDTO";
+import { ProcessingStatusEnum } from "../../Core/Entity/Enum/ProcessingStatusEnum";
 
 
-// export class SqsServiceImpl implements QueueServiceInterface {
-//   constructor(private readonly sqsConfig: SqsConfig) {}
+export class SqsStatusMsgImpl implements StatusReadMsgGatewayInterface {
+  constructor(private readonly sqsConfig: SqsConfig) {}
 
-//   async receberProximaMensagem(): Promise<MessageVideoData | null> {
-//     const command = new ReceiveMessageCommand({
-//       QueueUrl: this.sqsConfig.getQueueUrl(),
-//       MaxNumberOfMessages: 1,
-//       WaitTimeSeconds: 20,
-//     });
+  async getNextStatusMessage(): Promise <StatusMsgValueObject | undefined> {
+    const command = new ReceiveMessageCommand({
+      QueueUrl: this.sqsConfig.getQueueUrl(),
+      MaxNumberOfMessages: 1,
+      WaitTimeSeconds: 20,
+    });
 
-//     const response = await this.sqsConfig.getClient().send(command);
-//     if (!response.Messages || response.Messages.length === 0) {
-//       return null;
-//     }
+    const response = await this.sqsConfig.getClient().send(command);
+    if (!response.Messages || response.Messages.length === 0) {
+      return undefined;
+    }
 
-//     const message = response.Messages[0];
-//     const body = JSON.parse(message.Body || "{}") as MessageVideoData;
-//     return MessageVideoData.fromSqsMessage(body, message.ReceiptHandle);
-//   }
-//   async deletarMensagem(videoData: MessageVideoData): Promise<void> {
-//     const command = new DeleteMessageCommand({
-//       QueueUrl: this.sqsConfig.getQueueUrl(),
-//       ReceiptHandle: videoData._receiptHandle,
-//     });
+    const message = response.Messages[0];
+    const bodyToDTO = JSON.parse(message.Body || "{}") as StatusMsgDTO;
+    return new StatusMsgValueObject(
+        bodyToDTO.id_video,
+        bodyToDTO.id_usuario,
+        bodyToDTO.status as ProcessingStatusEnum,
+        bodyToDTO.status_time,
+        bodyToDTO.percentage,
+        bodyToDTO.message
+    );
+  }	
 
-//     await this.sqsConfig.getClient().send(command);
-//     console.log("Mensagem deletada da fila SQS:", videoData._receiptHandle);
-//   }
-// }
+  async deleteStatusMessage (processingId: string): Promise <void> {
+    const command = new DeleteMessageCommand({
+      QueueUrl: this.sqsConfig.getQueueUrl(),
+      ReceiptHandle: processingId,
+    });
+
+    await this.sqsConfig.getClient().send(command);
+    console.log("Mensagem deletada da fila SQS:", processingId);
+  }	
+}

@@ -8,25 +8,29 @@ import { SqsConfig } from "./Infrastructure/Configs/SqsConfig";
 import { SnsConfig } from "./Infrastructure/Configs/SnsConfig";
 import { SqsProcessingMsgImpl } from "./Infrastructure/Services/SqsProcessingMsgImpl";
 import { SnsServiceImpl } from "./Infrastructure/Services/SnsServiceImpl";
+import { SqsErrorMsgImpl } from "./Infrastructure/Services/SqsErrorMsgImpl";
+import { SqsStatusMsgImpl } from "./Infrastructure/Services/SqsStatusMsgImpl";
 
 // Inicialização de variáveis de ambiente
 dotenv.config();
 const env = process.env.NODE_ENV ?? "local";
+
+// Configuração do SQS e SNS
 const snsConfigProcessamento = new SnsConfig();
 const sqsConfigProcessamento = new SqsConfig("fila-processamento");
 const sqsConfigStatus = new SqsConfig("fila-status");
 const sqsConfigErro = new SqsConfig("fila-erro");
-
-// const s3Config = new S3Config();
 if (!sqsConfigProcessamento.getQueueUrl() || !sqsConfigStatus.getQueueUrl() || !sqsConfigErro.getQueueUrl() || !snsConfigProcessamento.getTopicArn()) {
   throw new Error(
     "Configurações inválidas: URL da fila SQS ou ARN do tópico SNS não fornecidos"
   );
 }
 const queueProcessing = new SqsProcessingMsgImpl(sqsConfigProcessamento);
-
-
+const queueStatus = new SqsErrorMsgImpl(sqsConfigErro);
+const queueError = new SqsStatusMsgImpl(sqsConfigStatus);
 const notificationRepository = new SnsServiceImpl(snsConfigProcessamento);
+
+// Inicialização de processamento de mensagens
 // const queueWorker = new QueueWorker(videoQueueHandler);
 // console.log("Iniciando a aplicação de escuta de status...");
 // await queueWorker.start();
