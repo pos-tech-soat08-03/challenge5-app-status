@@ -36,7 +36,13 @@ export class ErrorMsgValueObject {
         return this.errorMsg;
     }
 
-    public toJson(): object {
+    toJson(): {
+        id_video: string,
+        id_user: string,
+        status: ProcessingStatusEnum,
+        status_time: Date,
+        error_message: string
+    } {
         return {
             id_video: this.idVideo,
             id_user: this.idUser,
