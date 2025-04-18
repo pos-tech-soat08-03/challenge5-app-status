@@ -15,6 +15,8 @@ export class SnsServiceImpl implements ProcessingPostMsgGatewayInterface {
 
     try {
       const comando = new PublishCommand(params);
+      const resultado = await this.snsConfig.getClient().send(comando);
+      console.log("Mensagem enviada com sucesso:", resultado);
     } catch (erro) {
       console.error("Erro ao enviar notificação:", erro);
       throw erro;

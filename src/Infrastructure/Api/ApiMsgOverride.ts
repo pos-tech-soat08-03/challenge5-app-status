@@ -23,7 +23,7 @@ export class ApiMsgOverride {
                 const content = req.body;
                 const result = await ProcessingController.CreateProcessing(dbconnection, content);
                 if (!result) {
-                    res.status(404).send("Erro criando processamento");
+                    res.status(400).send("Erro criando processamento");
                 }
                 res.status(200).send(result);
             } catch (error: any) {
