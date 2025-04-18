@@ -27,6 +27,13 @@ export class SqsStatusMsgImpl implements StatusReadMsgGatewayInterface {
 
     const message = response.Messages[0];
     const bodyToDTO = JSON.parse(message.Body || "{}") as StatusMsgDTO;
+
+    const delCommand = new DeleteMessageCommand({
+      QueueUrl: this.sqsConfig.getQueueUrl(),
+      ReceiptHandle: message.ReceiptHandle,
+    });
+    await this.sqsConfig.getClient().send(delCommand);
+
     return new StatusMsgValueObject(
         bodyToDTO.id_video,
         bodyToDTO.id_usuario,
@@ -37,13 +44,4 @@ export class SqsStatusMsgImpl implements StatusReadMsgGatewayInterface {
     );
   }	
 
-  async deleteStatusMessage (processingId: string): Promise <void> {
-    const command = new DeleteMessageCommand({
-      QueueUrl: this.sqsConfig.getQueueUrl(),
-      ReceiptHandle: processingId,
-    });
-
-    await this.sqsConfig.getClient().send(command);
-    console.log("Mensagem deletada da fila SQS:", processingId);
-  }	
 }

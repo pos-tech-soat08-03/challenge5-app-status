@@ -1,8 +1,7 @@
-import { ProcessingEntity } from "../../Entity/ProcessingEntity";
+import { ProcessingDTO } from "../../Types/DTO/ProcessingDTO";
 
 export interface ProcessingReadMsgGatewayInterface {
  
-    getNextProcessingMessage (): Promise <ProcessingEntity | undefined>;
-    deleteProcessingMessage (processingId: string): Promise <void>;
+    getNextProcessingMessage (): Promise <ProcessingDTO | undefined>;
 
 }

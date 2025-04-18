@@ -30,7 +30,6 @@ const queueStatus = new SqsErrorMsgImpl(sqsConfigErro);
 const queueError = new SqsStatusMsgImpl(sqsConfigStatus);
 const notificationRepository = new SnsServiceImpl(snsConfigProcessamento);
 
-// Inicialização de processamento de mensagens
 // const queueWorker = new QueueWorker(videoQueueHandler);
 // console.log("Iniciando a aplicação de escuta de status...");
 // await queueWorker.start();

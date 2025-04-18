@@ -26,6 +26,13 @@ export class SqsErrorMsgImpl implements ErrorReadMsgGatewayInterface {
 
     const message = response.Messages[0];
     const bodyToDTO = JSON.parse(message.Body || "{}") as ErrorMsgDTO;
+
+    const delCommand = new DeleteMessageCommand({
+      QueueUrl: this.sqsConfig.getQueueUrl(),
+      ReceiptHandle: message.ReceiptHandle,
+    });
+    await this.sqsConfig.getClient().send(delCommand);
+
     return new ErrorMsgValueObject(
         bodyToDTO.id_video,
         bodyToDTO.id_user,
@@ -35,13 +42,4 @@ export class SqsErrorMsgImpl implements ErrorReadMsgGatewayInterface {
     )
   }	
 
-  async deleteErrorMessage (errorId: string): Promise <void> {
-    const command = new DeleteMessageCommand({
-      QueueUrl: this.sqsConfig.getQueueUrl(),
-      ReceiptHandle: errorId,
-    });
-
-    await this.sqsConfig.getClient().send(command);
-    console.log("Mensagem deletada da fila SQS:", errorId);
-  }	
 }
