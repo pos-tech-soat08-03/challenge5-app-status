@@ -4,4 +4,5 @@ export type StatusMsgDTO = {
     status: string;
     status_time: Date;
     percentage: number;
+    message: string;
 }

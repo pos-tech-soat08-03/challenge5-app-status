@@ -142,3 +142,4 @@ local/
 docker-compose.override.yml
 *.fake.*
 sonar-config.js
+localstack-data/

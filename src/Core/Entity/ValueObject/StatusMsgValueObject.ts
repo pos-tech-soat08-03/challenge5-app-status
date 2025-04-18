@@ -6,13 +6,15 @@ export class StatusMsgValueObject {
     private readonly statusMsg: ProcessingStatusEnum;
     private readonly statusTimestamp: Date;
     private readonly processingPercentage: number;
+    private readonly message: string;
 
-    constructor(idVideo: string, idUser: string, statusMsg: ProcessingStatusEnum, statusTimestamp: Date, processingPercentage: number) {
+    constructor(idVideo: string, idUser: string, statusMsg: ProcessingStatusEnum, statusTimestamp: Date, processingPercentage: number, message: string) {
         this.idVideo = idVideo;
         this.idUser = idUser;
         this.statusMsg = statusMsg;
         this.statusTimestamp = statusTimestamp;
         this.processingPercentage = processingPercentage;
+        this.message = message;
     }
 
     public getIdVideo(): string {
@@ -25,6 +27,10 @@ export class StatusMsgValueObject {
     
     public getStatusMsg(): ProcessingStatusEnum {
         return this.statusMsg;
+    }
+
+    public getMessage(): string {
+        return this.message;
     }
     
     public getStatusTimestamp(): Date {
@@ -41,7 +47,8 @@ export class StatusMsgValueObject {
             idUser: this.idUser,
             statusMsg: this.statusMsg,
             statusTimestamp: this.statusTimestamp,
-            processingPercentage: this.processingPercentage
+            processingPercentage: this.processingPercentage,
+            message: this.message
         };
     }
 

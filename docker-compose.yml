@@ -5,7 +5,7 @@ services:
     image: challenge5-app-status:1.0.0
     container_name: challenge5
     environment:
-      NODE_ENV: "development"
+      NODE_ENV: "local"
       SERVER_PORT: "3000"
       DATABASE_HOST: "challenge5_database"
       DATABASE_PORT: "3306"
@@ -16,6 +16,7 @@ services:
       - "3000:3000"
     links:
       - challenge5_database
+      
     depends_on:
         challenge5_database:
             condition: service_healthy
@@ -23,6 +24,7 @@ services:
     image: mysql:9.0.1
     container_name: challenge5_database
     restart: always
+    command: --bind-address=0.0.0.0
     ports:
       - '3306:3306'
     expose:

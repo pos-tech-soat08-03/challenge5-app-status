@@ -31,6 +31,9 @@ export class ProcessingStatusGateway implements ProcessingRepoGatewayInterface {
                 host: this.dbconnection.hostname,
                 port: this.dbconnection.portnumb,
                 dialect: this.dbconnection.databaseType,
+                // dialectOptions: {
+                //     connectTimeout: 60000 // Increase timeout to 60 seconds
+                // }
             }
         );
 

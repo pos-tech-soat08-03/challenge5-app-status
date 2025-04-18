@@ -40,6 +40,7 @@
     "status": "NOT_STARTED | PROCESSING | COMPLETED",
     "status_time": "2023-10-01T12:00:00Z",
     "percentage": 0.0,
+    "message": "Mensagem de status do processamento (ou URL)",
 }
 
 # Mensagem de erro do processamento ou do carregamento
