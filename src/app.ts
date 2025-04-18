@@ -10,32 +10,16 @@ import { SqsProcessingMsgImpl } from "./Infrastructure/Services/SqsProcessingMsg
 import { SnsServiceImpl } from "./Infrastructure/Services/SnsServiceImpl";
 import { SqsErrorMsgImpl } from "./Infrastructure/Services/SqsErrorMsgImpl";
 import { SqsStatusMsgImpl } from "./Infrastructure/Services/SqsStatusMsgImpl";
+import { QueueWorkerProcessingSQS } from "./Infrastructure/QueueWorker/QueueWorkerProcessingSQS";
+import { ProcessingQueueHandler } from "./Application/Controller/ProcessingQueueHandler";
+import { EmailServiceMock } from "./Infrastructure/Services/EmailServiceMock";
+import { QueueWorkerErroSQS } from "./Infrastructure/QueueWorker/QueueWorkerErrorSQS";
+import { QueueWorkerStatusSQS } from "./Infrastructure/QueueWorker/QueueWorkerStatusSQS";
+import { ErrorQueueHandler } from "./Application/Controller/ErrorQueueHandler";
 
 // Inicialização de variáveis de ambiente
 dotenv.config();
 const env = process.env.NODE_ENV ?? "local";
-
-// Configuração do SQS e SNS
-const snsConfigProcessamento = new SnsConfig();
-const sqsConfigProcessamento = new SqsConfig("fila-processamento");
-const sqsConfigStatus = new SqsConfig("fila-status");
-const sqsConfigErro = new SqsConfig("fila-erro");
-if (!sqsConfigProcessamento.getQueueUrl() || !sqsConfigStatus.getQueueUrl() || !sqsConfigErro.getQueueUrl() || !snsConfigProcessamento.getTopicArn()) {
-  throw new Error(
-    "Configurações inválidas: URL da fila SQS ou ARN do tópico SNS não fornecidos"
-  );
-}
-const queueProcessing = new SqsProcessingMsgImpl(sqsConfigProcessamento);
-const queueStatus = new SqsErrorMsgImpl(sqsConfigErro);
-const queueError = new SqsStatusMsgImpl(sqsConfigStatus);
-const notificationRepository = new SnsServiceImpl(snsConfigProcessamento);
-
-// const queueWorker = new QueueWorker(videoQueueHandler);
-// console.log("Iniciando a aplicação de escuta de status...");
-// await queueWorker.start();
-// console.log(
-//   "Worker iniciado com sucesso. Aguardando mensagens na fila SQS..."
-// );
 
 // Inicialização de banco de dados
 const mysqlConnection = new MySQLConnection({
@@ -46,6 +30,31 @@ const mysqlConnection = new MySQLConnection({
   password: process.env.DATABASE_PASS ?? "ERROR",
   databaseType: 'mysql'
 });
+
+// Inicialização de serviço de alertas
+const emailAlert = new EmailServiceMock();
+
+// Configuração do SQS e SNS
+const snsConfigProcessamento = new SnsConfig();
+const notificationGateway = new SnsServiceImpl(snsConfigProcessamento);
+
+const sqsConfigProcessamento = new SqsConfig("fila-processamento");
+const queueProcessingGW = new SqsProcessingMsgImpl(sqsConfigProcessamento);
+const queueWorkerProcessing = new QueueWorkerProcessingSQS(new ProcessingQueueHandler(mysqlConnection, queueProcessingGW));
+queueWorkerProcessing.start();
+console.log("Worker iniciado com sucesso. Aguardando mensagens na fila SQS de Processamento...");
+
+const sqsConfigErro = new SqsConfig("fila-erro");
+const queueErroGW = new SqsErrorMsgImpl(sqsConfigErro);
+const queueWorkerErro = new QueueWorkerErroSQS(new ErrorQueueHandler(mysqlConnection, queueErroGW));
+queueWorkerErro.start();
+console.log("Worker iniciado com sucesso. Aguardando mensagens na fila SQS de Erro...");
+
+// const sqsConfigStatus = new SqsConfig("fila-status");
+// const queueStatusGW = new SqsStatusMsgImpl(sqsConfigStatus);
+// const queueWorkerStatus = new QueueWorkerStatusSQS(new StatusQueueHandler(mysqlConnection, queueStatusGW, notificationGateway, emailAlert));
+// queueWorkerStatus.start();
+// console.log("Worker iniciado com sucesso. Aguardando mensagens na fila SQS de Status...");
 
 // Inicialização de framework Express + endpoints default
 const port = Number(process.env.SERVER_PORT ?? "3000");

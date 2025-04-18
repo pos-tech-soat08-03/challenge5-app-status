@@ -1,10 +1,10 @@
-import { ProcessingQueueHandler } from "../../Application/Controller/ProcessingQueueHandler";
+import { ErroQueueHandler } from "../../Application/Controller/ProcessingQueueHandler";
 
-export class QueueWorkerProcessingSQS {
-  constructor(private readonly queueHandler: ProcessingQueueHandler) {}
+export class QueueWorkerErroSQS {
+  constructor(private readonly queueHandler: ErroQueueHandler) {}
 
   async start(): Promise<void> {
-    console.log("QueueWorker iniciado. Iniciando polling da fila SQS de Processamento...");
+    console.log("QueueWorker iniciado. Iniciando polling da fila SQS de Erros...");
     while (true) {
       try {
         await this.queueHandler.handle();

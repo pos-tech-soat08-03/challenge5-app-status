@@ -5,14 +5,12 @@ import {
 
 import { SqsConfig } from "../Configs/SqsConfig";
 import { ErrorReadMsgGatewayInterface } from "../../Core/Interfaces/Gateway/ErrorReadMsgGatewayInterface";
-import { ProcessingStatusEnum } from "../../Core/Entity/Enum/ProcessingStatusEnum";
-import { ErrorMsgValueObject } from "../../Core/Entity/ValueObject/ErrorMsgValueObject";
 import { ErrorMsgDTO } from "../../Core/Types/DTO/ErrorMsgDTO";
 
 export class SqsErrorMsgImpl implements ErrorReadMsgGatewayInterface {
   constructor(private readonly sqsConfig: SqsConfig) {}
 
-  async getNextErrorMessage(): Promise <ErrorMsgValueObject | undefined> {
+  async getNextErrorMessage(): Promise <ErrorMsgDTO | undefined> {
     const command = new ReceiveMessageCommand({
       QueueUrl: this.sqsConfig.getQueueUrl(),
       MaxNumberOfMessages: 1,
@@ -33,13 +31,7 @@ export class SqsErrorMsgImpl implements ErrorReadMsgGatewayInterface {
     });
     await this.sqsConfig.getClient().send(delCommand);
 
-    return new ErrorMsgValueObject(
-        bodyToDTO.id_video,
-        bodyToDTO.id_user,
-        bodyToDTO.status as ProcessingStatusEnum,
-        bodyToDTO.status_time,
-        bodyToDTO.error_message
-    )
+    return bodyToDTO;
   }	
 
 }
