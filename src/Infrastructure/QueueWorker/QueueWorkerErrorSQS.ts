@@ -1,7 +1,7 @@
-import { ErroQueueHandler } from "../../Application/Controller/ProcessingQueueHandler";
+import { ErrorQueueHandler } from "../../Application/Controller/ErrorQueueHandler";
 
 export class QueueWorkerErroSQS {
-  constructor(private readonly queueHandler: ErroQueueHandler) {}
+  constructor(private readonly queueHandler: ErrorQueueHandler) {}
 
   async start(): Promise<void> {
     console.log("QueueWorker iniciado. Iniciando polling da fila SQS de Erros...");

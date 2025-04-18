@@ -1,4 +1,4 @@
-import { StatusQueueHandler } from "../../Application/Controller/ProcessingQueueHandler";
+import { StatusQueueHandler } from "../../Application/Controller/StatusQueueHandler";
 
 export class QueueWorkerStatusSQS {
   constructor(private readonly queueHandler: StatusQueueHandler) {}
