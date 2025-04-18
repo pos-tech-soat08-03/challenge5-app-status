@@ -18,7 +18,9 @@ export class ApiProcessingStatus {
                 if (!result) {
                     res.status(404).send("Erro: Nenhum processamento encontrado");
                 }
-                res.status(200).send(result);
+                else{
+                    res.status(200).send(result);
+                }
             } catch (error: any) {
                 res.status(500).send(error.message);
             }
@@ -38,7 +40,9 @@ export class ApiProcessingStatus {
                 if (!result) {
                     res.status(404).send("Erro: Nenhum processamento encontrado");
                 }
-                res.status(200).send(result);
+                else { 
+                    res.status(200).send(result);
+                }
             } catch (error: any) {
                 res.status(500).send(error.message);
             }
@@ -58,7 +62,9 @@ export class ApiProcessingStatus {
                 if (!result) {
                     res.status(404).send("Erro: Nenhum processamento encontrado");
                 }
-                res.status(200).send(result);
+                else {
+                    res.status(200).send(result);
+                }
             } catch (error: any) {
                 res.status(500).send(error.message);
             }

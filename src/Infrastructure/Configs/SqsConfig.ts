@@ -10,7 +10,7 @@ export class SqsConfig {
     const isLocal = process.env.NODE_ENV === "local";
     const config: SQSClientConfig = {
       region: process.env.AWS_REGION || "us-east-1",
-      endpoint: isLocal ? "http://localhost:4566" : undefined, // Endpoint do LocalStack
+      endpoint: isLocal ? "http://localstack:4566" : undefined, // Endpoint do LocalStack
       credentials: isLocal
         ? { accessKeyId: "test", secretAccessKey: "test" } // Credenciais fictícias
         : {
@@ -22,7 +22,7 @@ export class SqsConfig {
     this.queueUrl =
       process.env.SQS_QUEUE_URL ??
       (isLocal
-        ? `http://localhost:4566/000000000000/${filaSqs}`
+        ? `http://localstack:4566/000000000000/${filaSqs}`
         : `https://sqs.us-east-1.amazonaws.com/SEU_ACCOUNT_ID/${filaSqs}` );
   }
 

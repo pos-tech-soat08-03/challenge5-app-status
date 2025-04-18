@@ -10,7 +10,7 @@ export class SnsConfig {
     const isLocal = process.env.NODE_ENV === "local";
     const config: SNSClientConfig = {
       region: process.env.AWS_REGION ?? "us-east-1",
-      endpoint: isLocal ? "http://localhost:4566" : undefined,
+      endpoint: isLocal ? "http://localstack:4566" : undefined,
       credentials: isLocal
         ? { accessKeyId: "test", secretAccessKey: "test" }
         : {
