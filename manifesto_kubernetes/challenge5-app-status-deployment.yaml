@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: challenge5-app-status-deployment
+  name: jackapp-status-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: challenge5-app-status
+      app: jackapp-status
   template:
     metadata:
-      name: challenge5-app-status
+      name: jackapp-status
       labels:
-        app: challenge5-app-status
+        app: jackapp-status
     spec:
       automountServiceAccountToken: false
       containers:
-      - name: challenge5-app-status-container
-        image: brunomoreirareis/challenge5-app-status:latest
+      - name: jackapp-status-container
+        image: brunomoreirareis/jackapp-status:latest
         resources:
           limits:
             memory: "1000Mi"
@@ -30,11 +30,11 @@ spec:
         - containerPort: 3000
         envFrom:
         - configMapRef:
-            name: challenge5-app-status-configmap
+            name: jackapp-status-configmap
             optional: true
         volumeMounts:
-        - name: challenge5-app-status-storage
+        - name: jackapp-status-storage
           mountPath: /data
       volumes:
-      - name: challenge5-app-status-storage
+      - name: jackapp-status-storage
         emptyDir: {}
