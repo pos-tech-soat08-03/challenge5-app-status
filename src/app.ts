@@ -7,6 +7,7 @@ import { ApiMsgOverride } from "./Infrastructure/Api/ApiMsgOverride";
 import { SqsConfig } from "./Infrastructure/Configs/SqsConfig";
 import { SnsConfig } from "./Infrastructure/Configs/SnsConfig";
 import { SqsProcessingMsgImpl } from "./Infrastructure/Services/SqsProcessingMsgImpl";
+import { SnsServiceImpl } from "./Infrastructure/Services/SnsServiceImpl";
 
 // Inicialização de variáveis de ambiente
 dotenv.config();
@@ -22,8 +23,10 @@ if (!sqsConfigProcessamento.getQueueUrl() || !sqsConfigStatus.getQueueUrl() || !
     "Configurações inválidas: URL da fila SQS ou ARN do tópico SNS não fornecidos"
   );
 }
-const queueRepository = new SqsProcessingMsgImpl(sqsConfigProcessamento);
-// const notificationRepository = new SnsServiceImpl(snsConfig);
+const queueProcessing = new SqsProcessingMsgImpl(sqsConfigProcessamento);
+
+
+const notificationRepository = new SnsServiceImpl(snsConfigProcessamento);
 // const queueWorker = new QueueWorker(videoQueueHandler);
 // console.log("Iniciando a aplicação de escuta de status...");
 // await queueWorker.start();

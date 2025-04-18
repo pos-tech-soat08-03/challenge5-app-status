@@ -1,29 +1,24 @@
-// // src/Application/Adapters/SnsServiceImpl.ts
-// import { PublishCommand } from "@aws-sdk/client-sns";
-// import { NotificationServiceInterface } from "../../Core/Interfaces/Services/NotificationServiceInterface";
-// import { MessageStatusEntity } from "../../Core/Entity/MessageStatusEntity";
-// import { MessageErrorEntity } from "../../Core/Entity/MessageErrorEntity"; // Novo
-// import { SnsConfig } from "../Configs/SnsConfig";
+import { PublishCommand } from "@aws-sdk/client-sns";
+import { SnsConfig } from "../Configs/SnsConfig";
+import { ProcessingPostMsgGatewayInterface } from "../../Core/Interfaces/Gateway/ProcessingPostMsgGatewayInterface";
+import { ProcessingEntity } from "../../Core/Entity/ProcessingEntity";
 
-// export class SnsServiceImpl implements NotificationServiceInterface {
-//   constructor(private readonly snsConfig: SnsConfig) {}
+export class SnsServiceImpl implements ProcessingPostMsgGatewayInterface {
+  constructor(private readonly snsConfig: SnsConfig) {}
 
-//   async informarStatus(
-//     status: MessageStatusEntity | MessageErrorEntity
-//   ): Promise<void> {
-//     const message = JSON.stringify(status);
-//     const params = {
-//       Message: message,
-//       TopicArn: this.snsConfig.getTopicArn(),
-//     };
+  async sendProcessingMessage (processing : ProcessingEntity): Promise <void> {
+    const message = JSON.stringify(processing.toReprocessingDTO());
+    const params = {
+      Message: message,
+      TopicArn: this.snsConfig.getTopicArn(),
+    };
 
-//     try {
-//       const comando = new PublishCommand(params);
-//       await this.snsConfig.getClient().send(comando);
-//       console.log(`Notificação enviada: ${message}`);
-//     } catch (erro) {
-//       console.error("Erro ao enviar notificação:", erro);
-//       throw erro;
-//     }
-//   }
-// }
+    try {
+      const comando = new PublishCommand(params);
+    } catch (erro) {
+      console.error("Erro ao enviar notificação:", erro);
+      throw erro;
+    }
+  }
+
+}
