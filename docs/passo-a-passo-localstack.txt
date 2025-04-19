@@ -1,0 +1,62 @@
+
+2. Configuração do LocalStack
+docker-compose up -d
+
+export NODE_ENV=local
+export AWS_REGION=us-east-1
+export AWS_ACCESS_KEY_ID="test"
+export AWS_SECRET_ACCESS_KEY="test"
+export AWS_DEFAULT_REGION="us-east-1"
+SQS_QUEUE_URL=http://localhost:4566/000000000000/<FILA> <- definir fila
+SNS_TOPIC_ARN=arn:aws:sns:us-east-1:000000000000:<TOPICO> <- arn definido
+
+
+aws --endpoint-url=http://localhost:4566 sns create-topic --name canal-de-processamento
+aws --endpoint-url=http://localhost:4566 sns create-topic --name status-de-processamento
+aws --endpoint-url=http://localhost:4566 sns create-topic --name erro-de-processamento
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name fila-processamento
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name fila-erro
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name fila-status
+
+aws --endpoint-url=http://localhost:4566 sqs send-message \
+  --queue-url http://localhost:4566/000000000000/fila-processamento \
+  --message-body '{"video":{"id_video":"vid-123","title":"Big Buck Bunny","description":"Test Video","filename":"<VIDEO>","full_path":"s3://<BUCKET>/videos/<VIDEO>","file_size":10485760,"duration":60,"framerate":24},"user":{"id_usuario":"user-123","email":"user@example.com"},"config":{"output_format":"jpg","resolution":"640x480","interval":1}}'
+
+
+3. Criar Recursos no LocalStack
+aws --endpoint-url=http://localhost:4566 s3 mb s3://<BUCKET> --profile localstack <- cria bucket
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name <FILA> --profile localstack <- cria fila
+aws --endpoint-url=http://localhost:4566 sns create-topic --name <TOPICO> --profile localstack <- cria topico
+
+aws --endpoint-url=http://localhost:4566 s3 mb s3://my-bucket --profile localstack
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name video-input-queue --profile localstack
+aws --endpoint-url=http://localhost:4566 sns create-topic --name VideoStatusTopic --profile localstack
+
+4. Preparar o Vídeo
+aws --endpoint-url=http://localhost:4566 s3 cp <VIDEO> s3://<BUCKET>/videos/<VIDEO> --profile localstack <- copia video no s3
+aws --endpoint-url=http://localhost:4566 s3 ls s3://<BUCKET>/videos/ --profile localstack <- confere video
+
+aws --endpoint-url=http://localhost:4566 s3 cp teste.mp4 s3://my-bucket/videos/teste.mp4 --profile localstack
+aws --endpoint-url=http://localhost:4566 s3 ls s3://my-bucket/videos/ --profile localstack
+
+5. Enviar Mensagem para a Fila SQS
+
+aws --endpoint-url=http://localhost:4566 sqs send-message \
+  --queue-url http://localhost:4566/000000000000/<FILA> \
+  --message-body '{"user":{"idUsuario":"user-123","email":"user@example.com"},"video":{"idVideo":"vid-123","title":"Big Buck Bunny","description":"Test Video","filename":"<VIDEO>","fullPath":"s3://<BUCKET>/videos/<VIDEO>","fileSize":10485760,"duration":60,"framerate":24},"config":{"outputFormat":"jpg","resolution":"640x480","interval":1}}' \
+  --profile localstack
+
+aws --endpoint-url=http://localhost:4566 sqs send-message \
+  --queue-url http://localhost:4566/000000000000/video-input-queue \
+  --message-body '{"user":{"id_usuario":"user-123","email":"user@example.com"},"video":{"id_video":"vid-123","title":"Big Buck Bunny","description":"Test Video","filename":"teste.mp4","full_path":"s3://my-bucket/videos/teste.mp4","file_size": 26836582,"duration":60,"framerate":24},"config":{"output_format":"jpg","resolution":"640x480","interval":5}}' \
+  --profile localstack
+
+6. Rodar a Aplicação
+
+npx tsc
+node dist/app.js
+
+
+aws --endpoint-url=http://localhost:4566 s3 ls s3://my-bucket/processed/ --profile localstack <- confere o zip no s3
+curl -o video-vid-123.zip "<URL_ASSINADA>" <- puxa zip do s3
+unzip video-vid-123.zip -d frames-test

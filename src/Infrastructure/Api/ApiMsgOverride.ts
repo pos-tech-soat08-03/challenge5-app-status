@@ -23,7 +23,7 @@ export class ApiMsgOverride {
                 const content = req.body;
                 const result = await ProcessingController.CreateProcessing(dbconnection, content);
                 if (!result) {
-                    res.status(404).send("Erro criando processamento");
+                    res.status(400).send("Erro criando processamento");
                 }
                 res.status(200).send(result);
             } catch (error: any) {
@@ -46,7 +46,7 @@ export class ApiMsgOverride {
                 }
                 const result = await ProcessingController.RegisterProcessingStatus(dbconnection, req.body);
                 if (!result) {
-                    res.status(404).send("Erro registrando status");
+                    res.status(400).send("Erro registrando status");
                 }
                 res.status(200).send(result);
             } catch (error: any) {
@@ -69,7 +69,7 @@ export class ApiMsgOverride {
                 }
                 const result = await ProcessingController.RegisterProcessingError(dbconnection, req.body);
                 if (!result) {
-                    res.status(404).send("Erro registrando msg de erro");
+                    res.status(400).send("Erro registrando msg de erro");
                 }
                 res.status(200).send(result);
             } catch (error: any) {

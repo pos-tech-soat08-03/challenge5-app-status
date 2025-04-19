@@ -17,17 +17,6 @@
           "Tests Only"
         ],
         "description": "Mensagem de Processamento",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Mensagem de Processamento",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Processamento"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -50,17 +39,6 @@
           "Tests Only"
         ],
         "description": "Mensagem de Status",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Mensagem de Status",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Status"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -83,17 +61,6 @@
           "Tests Only"
         ],
         "description": "Mensagem de Erro",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Mensagem de Erro",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"

@@ -195,7 +195,7 @@ export class ProcessingUseCases {
                 percentage: processing.getProcessingPercentage(),
                 log: processing.getProcessingLog(),
                 error_count: processing.getProcessingErrorCount(),
-                success: true,
+                success: processing.getProcessingStatus() === ProcessingStatusEnum.ERROR ? false : true,
                 message: `Error count #${updatedProcessing.getProcessingErrorCount()}. Last error: ${errorMsg.error_message}`,
                 error_message: undefined,
             } as ProcessingResponse;  
