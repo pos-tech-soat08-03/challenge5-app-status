@@ -137,4 +137,4 @@ jobs:
         echo '  "lb_hostname": "${{ steps.get-load-balancer-hostname.outputs.LB_HOSTNAME }}",' >> jackapp-status.json
         echo '  "lb_port": "${{ steps.get-load-balancer-port.outputs.LB_PORT }}"' >> jackapp-status.json
         echo '}' >> jackapp-status.json
-        aws s3 cp jackapp-status.json s3://${{ github.event.inputs.aws_backend_bucket }}/jackapps/jackapp-status.json
+        aws s3 cp jackapp-status.json s3://${{ github.event.inputs.aws_backend_bucket }}/jackapp-status/jackapp-status.json
