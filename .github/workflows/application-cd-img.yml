@@ -5,6 +5,7 @@ on:
     branches:
       - "main"
       - "fix*"
+      - "fix/*"
 
 jobs:
   build:
