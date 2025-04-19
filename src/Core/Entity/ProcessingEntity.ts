@@ -119,7 +119,7 @@ export class ProcessingEntity {
         const processingUser = UserValueObject.fromDTO(pr.user);
         const processingConfig = ProcessingConfigValueObject.fromDTO(pr.config);
         return new ProcessingEntity(
-            processingId || '',
+            processingId ?? '',
             processingVideo,
             processingUser,
             processingConfig,

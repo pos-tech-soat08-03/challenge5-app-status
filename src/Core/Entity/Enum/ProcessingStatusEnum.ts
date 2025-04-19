@@ -5,8 +5,5 @@ export enum ProcessingStatusEnum {
     INTERRUPTED = 'INTERRUPTED',
     COMPLETED = 'COMPLETED',
     ERROR = 'ERROR',
-    CANCELLED = 'CANCELLED',
-    PENDING = 'PENDING',
-    FAILED = 'FAILED',
 
 }

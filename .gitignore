@@ -20,9 +20,10 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul / sonar
-coverage
+#coverage
 *.lcov
 .sonar*
+.scannerwork/
 
 # nyc test coverage
 .nyc_output
