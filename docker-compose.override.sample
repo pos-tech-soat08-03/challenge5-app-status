@@ -7,3 +7,14 @@ services:
       - |
         npm install --save-dev
         npm run start:dev
+  localstack:
+    image: localstack/localstack-pro:latest
+    container_name: localstack
+    ports:
+      - "4566:4566" # Porta padrão do LocalStack
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1 # Região simulada
+      - DEBUG=1 # Ativa logs detalhados (opcional)
+    volumes:
+      - "./localstack-data:/var/lib/localstack" # Persiste dados locais
+      - "/var/run/docker.sock:/var/run/docker.sock" # Permite ao LocalStack usar o Docker

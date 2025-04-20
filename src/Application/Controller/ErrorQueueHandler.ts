@@ -43,7 +43,7 @@ export class ErrorQueueHandler {
         throw new Error(error.message);
       }
     } else {
-      console.log("Nenhuma mensagem de erro no momento.");
+      // console.log("Nenhuma mensagem de erro no momento.");
     }
   }
 

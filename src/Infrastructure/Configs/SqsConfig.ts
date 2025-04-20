@@ -22,8 +22,8 @@ export class SqsConfig {
     this.queueUrl =
       process.env.SQS_QUEUE_URL ??
       (isLocal
-        ? `http://localstack:4566/000000000000/${filaSqs}`
-        : `https://sqs.us-east-1.amazonaws.com/SEU_ACCOUNT_ID/${filaSqs}` );
+        ? `http://localhost:4566/000000000000/${filaSqs}`
+        : `https://sqs.us-east-1.amazonaws.com/${process.env.AWS_ACCOUNT_ID}/${filaSqs}` );
   }
 
   getClient(): SQSClient {

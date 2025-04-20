@@ -25,7 +25,7 @@ export class ProcessingQueueHandler {
         throw new Error(error.message);
       }
     } else {
-      console.log("Nenhum vídeo na fila de processamento no momento.");
+      // console.log("Nenhum vídeo na fila de processamento no momento.");
     }
   }
 
