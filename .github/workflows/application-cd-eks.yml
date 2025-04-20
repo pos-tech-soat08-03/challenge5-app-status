@@ -73,7 +73,7 @@ jobs:
     - name: Extract SNS Topic ARN for Processing
       id: sns-processing-topic-arn
       run: | 
-        SNS_TOPIC_ARN=$(jq -r '.outputs.sns-canal-de-processamento-arn.value' terraform_infrastructure.json)
+        SNS_TOPIC_ARN=$(jq -r '.outputs["sns-canal-de-processamento-arn"].value' terraform_infrastructure.json)
         echo "SNS_TOPIC_ARN=$SNS_TOPIC_ARN" >> $GITHUB_OUTPUT       
 
     - name: Update kubeconfig 
