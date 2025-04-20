@@ -25,7 +25,7 @@ export class StatusQueueHandler {
         throw new Error(error.message);
       }
     } else {
-      console.log("Nenhuma mensagem de status no momento.");
+      // console.log("Nenhuma mensagem de status no momento.");
     }
   }
 

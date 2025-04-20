@@ -23,7 +23,9 @@ export class SqsStatusMsgImpl implements StatusReadMsgGatewayInterface {
     }
 
     const message = response.Messages[0];
-    const bodyToDTO = JSON.parse(message.Body || "{}") as StatusMsgDTO;
+    const snsEnvelope = JSON.parse(message.Body ?? "{}");
+    console.log("Mensagem de status recebida: ", snsEnvelope);
+    const bodyToDTO = JSON.parse(snsEnvelope.Message ?? "{}") as StatusMsgDTO;
 
     const delCommand = new DeleteMessageCommand({
       QueueUrl: this.sqsConfig.getQueueUrl(),

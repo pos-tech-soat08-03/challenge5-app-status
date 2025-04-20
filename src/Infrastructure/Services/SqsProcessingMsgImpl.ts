@@ -24,7 +24,8 @@ export class SqsProcessingMsgImpl implements ProcessingReadMsgGatewayInterface {
     }
 
     const message = response.Messages[0];
-    const bodyToDTO = JSON.parse(message.Body || "{}") as ProcessingDTO;
+    const snsEnvelope = JSON.parse(message.Body ?? "{}");
+    const bodyToDTO = JSON.parse(snsEnvelope.Message ?? "{}") as ProcessingDTO;
 
     const delCommand = new DeleteMessageCommand({
       QueueUrl: this.sqsConfig.getQueueUrl(),
