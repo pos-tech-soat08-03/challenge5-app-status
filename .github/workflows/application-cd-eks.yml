@@ -70,6 +70,12 @@ jobs:
         CLUSTER_NAME=$(jq -r '.outputs.jackapp_cluster_name.value' terraform_infrastructure.json)
         echo "CLUSTER_NAME=$CLUSTER_NAME" >> $GITHUB_OUTPUT
 
+    - name: Extract SNS Topic ARN for Processing
+      id: sns-processing-topic-arn
+      run: | 
+        SNS_TOPIC_ARN=$(jq -r '.outputs.sns-canal-de-processamento-arn.value' terraform_infrastructure.json)
+        echo "SNS_TOPIC_ARN=$SNS_TOPIC_ARN" >> $GITHUB_OUTPUT       
+
     - name: Update kubeconfig 
       run: | 
         aws eks update-kubeconfig --name ${{ steps.extract-cluster-name.outputs.CLUSTER_NAME }} --region ${{ github.event.inputs.aws_region }} 
@@ -89,6 +95,12 @@ jobs:
             DATABASE_NAME: "${{ secrets.MYSQL_DATABASE }}-CLIENTE"
             DATABASE_USER: "${{ secrets.MYSQL_USER }}"
             DATABASE_PASS: "${{ secrets.MYSQL_PASSWORD }}"
+            AWS_ACCOUNT_ID: "${{ github.event.inputs.aws_account_id }}"
+            AWS_REGION: "${{ github.event.inputs.aws_region }}"
+            AWS_ACCESS_KEY_ID: "${{ github.event.inputs.aws_access_key_id }}"
+            AWS_SECRET_ACCESS_KEY: "${{ github.event.inputs.aws_secret_access_key }}"
+            AWS_SESSION_TOKEN: "${{ github.event.inputs.aws_session_token }}"
+            SNS_TOPIC_ARN: "${{ steps.sns-processing-topic-arn.outputs.SNS_TOPIC_ARN }}"
           EOF
 
     - name: Create file jackapp-status-database-configmap.yaml
