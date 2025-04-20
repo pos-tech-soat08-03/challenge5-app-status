@@ -1,16 +1,23 @@
 
-2. Configuração do LocalStack
-docker-compose up -d
-
+#configuracoes environment
 export NODE_ENV=local
 export AWS_REGION=us-east-1
 export AWS_ACCESS_KEY_ID="test"
 export AWS_SECRET_ACCESS_KEY="test"
 export AWS_DEFAULT_REGION="us-east-1"
-SQS_QUEUE_URL=http://localhost:4566/000000000000/<FILA> <- definir fila
-SNS_TOPIC_ARN=arn:aws:sns:us-east-1:000000000000:<TOPICO> <- arn definido
 
+# para resetar o localstack
+curl -v --request POST http://localhost:4566/_localstack/state/reset
 
+# criacao de role (para permitir terraform via tflocal) 
+aws --endpoint-url=http://localhost:4566 iam create-role --role-name LabRole --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":"*","Resource":"*"}]}'
+
+# criacao de bucket S3 (fazer somente uma vez e configurar o resultado na variavel do terraform)
+aws --endpoint-url=http://localhost:4566 s3api create-bucket \
+    --bucket terraform-state-jackapp-$(uuidgen | tr -d - | tr '[:upper:]' '[:lower:]' ) \
+    --region us-east-1
+
+# caso necessario criar recursos manualmente (nesse caso )
 aws --endpoint-url=http://localhost:4566 sns create-topic --name canal-de-processamento
 aws --endpoint-url=http://localhost:4566 sns create-topic --name status-de-processamento
 aws --endpoint-url=http://localhost:4566 sns create-topic --name erro-de-processamento

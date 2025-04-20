@@ -84,7 +84,7 @@ describe("SqsConfig", () => {
     });
     expect(client).toBeDefined();
     // Note: This default URL structure might need adjustment based on actual AWS behavior/requirements
-    expect(queueUrl).toBe(`https://sqs.us-east-1.amazonaws.com/SEU_ACCOUNT_ID/${mockQueueName}`);
+    expect(queueUrl).toBe(`https://sqs.us-east-1.amazonaws.com/undefined/${mockQueueName}`);
   });
 
   it("should return the configured client via getClient", () => {

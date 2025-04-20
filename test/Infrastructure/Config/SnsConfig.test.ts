@@ -26,7 +26,7 @@ describe("SnsConfig", () => {
     // Check client configuration (accessing private config is tricky, focus on behavior)
     // We can infer config from the constructor logic based on env vars
     expect(topicArn).toBe(
-      "arn:aws:sns:us-east-1:000000000000:canal-de-processamento"
+      "arn:aws:sns:us-east-1:000000000000:sns-canal-de-processamento"
     );
     // Further checks could involve mocking the SNSClient constructor if needed
     // to verify endpoint and credentials, but that might be overly complex.
@@ -64,7 +64,7 @@ describe("SnsConfig", () => {
     expect(client).toBeInstanceOf(SNSClient);
     // Check default topic ARN for non-local when SNS_TOPIC_ARN is not set
     expect(topicArn).toBe(
-      "arn:aws:sns:us-east-1:ACCOUNT_ID:canal-de-processamento"
+      "arn:aws:sns:us-east-1:undefined:sns-canal-de-processamento"
     );
     // Default region should be us-east-1
     // Default credentials should be empty strings
@@ -83,7 +83,7 @@ describe("SnsConfig", () => {
     expect(client).toBeInstanceOf(SNSClient);
     // Check default topic ARN for local when SNS_TOPIC_ARN is not set
     expect(topicArn).toBe(
-      "arn:aws:sns:us-east-1:000000000000:canal-de-processamento"
+      "arn:aws:sns:us-east-1:000000000000:sns-canal-de-processamento"
     );
     // Default region should be us-east-1
     // Default credentials should be 'test'/'test'

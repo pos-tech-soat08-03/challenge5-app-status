@@ -39,19 +39,19 @@ const emailAlert = new EmailServiceMock();
 const snsConfigProcessamento = new SnsConfig();
 const notificationGateway = new SnsServiceImpl(snsConfigProcessamento);
 
-const sqsConfigProcessamento = new SqsConfig("fila-processamento");
+const sqsConfigProcessamento = new SqsConfig("sqs-canal-de-processamento");
 const queueProcessingGW = new SqsProcessingMsgImpl(sqsConfigProcessamento);
 const queueWorkerProcessing = new QueueWorkerProcessingSQS(new ProcessingQueueHandler(mysqlConnection, queueProcessingGW));
 queueWorkerProcessing.start();
 console.log("Worker iniciado com sucesso. Aguardando mensagens na fila SQS de Processamento...");
 
-const sqsConfigErro = new SqsConfig("fila-erro");
+const sqsConfigErro = new SqsConfig("sqs-falhas-de-processamento");
 const queueErroGW = new SqsErrorMsgImpl(sqsConfigErro);
 const queueWorkerErro = new QueueWorkerErroSQS(new ErrorQueueHandler(mysqlConnection, queueErroGW, notificationGateway, emailAlert));
 queueWorkerErro.start();
 console.log("Worker iniciado com sucesso. Aguardando mensagens na fila SQS de Erro...");
 
-const sqsConfigStatus = new SqsConfig("fila-status");
+const sqsConfigStatus = new SqsConfig("sqs-status-de-processamento");
 const queueStatusGW = new SqsStatusMsgImpl(sqsConfigStatus);
 const queueWorkerStatus = new QueueWorkerStatusSQS(new StatusQueueHandler(mysqlConnection, queueStatusGW));
 queueWorkerStatus.start();
