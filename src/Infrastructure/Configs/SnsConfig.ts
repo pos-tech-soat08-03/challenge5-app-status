@@ -7,7 +7,8 @@ export class SnsConfig {
   private readonly topicArn: string;
 
   constructor() {
-    console.log(`NODE_ENV é: ${process.env.NODE_ENV} :na configução SNS`); // Log para verificar o valor de NODE_ENV
+    console.log(`NODE_ENV é: ${process.env.NODE_ENV} :na configuração SNS`); // Log para verificar NODE_ENV
+
     const isLocal = process.env.NODE_ENV?.trim() === "local"; // Certifique-se de que o valor é comparado corretamente
     const config: SNSClientConfig = {
       region: process.env.AWS_REGION ?? "us-east-1",
@@ -20,11 +21,13 @@ export class SnsConfig {
           },
     };
     this.client = new SNSClient(config);
+    console.log(`SNS Client configurado com endpoint: ${config.endpoint}`); // Log para verificar o endpoint configurado
     this.topicArn =
       process.env.SNS_TOPIC_ARN ??
       (isLocal
         ? "arn:aws:sns:us-east-1:000000000000:sns-canal-de-processamento"
         : `arn:aws:sns:us-east-1:${process.env.AWS_ACCOUNT_ID}:sns-canal-de-processamento`);
+    console.log(`SNS Topic ARN configurado: ${this.topicArn}`); // Log para verificar o ARN do tópico
   }
 
   getClient(): SNSClient {
