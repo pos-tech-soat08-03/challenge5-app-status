@@ -7,7 +7,8 @@ export class SnsConfig {
   private readonly topicArn: string;
 
   constructor() {
-    const isLocal = process.env.NODE_ENV === "local";
+    console.log(`NODE_ENV é: ${process.env.NODE_ENV} :na configução SNS`); // Log para verificar o valor de NODE_ENV
+    const isLocal = process.env.NODE_ENV?.trim() === "local"; // Certifique-se de que o valor é comparado corretamente
     const config: SNSClientConfig = {
       region: process.env.AWS_REGION ?? "us-east-1",
       endpoint: isLocal ? "http://localstack:4566" : undefined,

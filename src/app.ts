@@ -20,7 +20,7 @@ import { StatusQueueHandler } from "./Application/Controller/StatusQueueHandler"
 
 // Inicialização de variáveis de ambiente
 dotenv.config();
-const env = process.env.NODE_ENV ?? "development";
+const env = process.env.NODE_ENV ?? "local";
 
 // Inicialização de banco de dados
 const mysqlConnection = new MySQLConnection({

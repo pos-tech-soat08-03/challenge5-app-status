@@ -93,7 +93,7 @@ jobs:
           metadata:
             name: jackapp-status-configmap
           data:
-            NODE_ENV: development
+            NODE_ENV: production
             DATABASE_HOST: "svc-jackapp-status-database"
             DATABASE_PORT: "${{ secrets.MYSQL_PORT}}"
             DATABASE_NAME: "${{ secrets.MYSQL_DATABASE }}-CLIENTE"
