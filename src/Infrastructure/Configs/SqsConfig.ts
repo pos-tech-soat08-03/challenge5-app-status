@@ -16,6 +16,7 @@ export class SqsConfig {
         : {
             accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "",
             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? "",
+            sessionToken: process.env.AWS_SESSION_TOKEN  // This is the additional parameter needed
           },
     };
     this.client = new SQSClient(config);
