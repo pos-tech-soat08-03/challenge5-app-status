@@ -145,6 +145,9 @@ export class ProcessingUseCases {
             }
             processing.setProcessingStatusPercentage(statusMsg.percentage);
             processing.setProcessingStatus(statusMsg.status as ProcessingStatusEnum);
+            if (statusMsg.status === ProcessingStatusEnum.COMPLETED) {
+                processing.appendProcessingLog("URL assinada para download: "+statusMsg.message);
+            }
             const updatedProcessing = await processingGateway.setProcessing(processing);
             if (!updatedProcessing) {
                 throw new Error("Error updating processing");
