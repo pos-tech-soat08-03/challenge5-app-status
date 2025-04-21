@@ -6,7 +6,7 @@
 
 {
     "video": {
-        "id_video": "uuid-do-video",
+        "id_video": "uuid-do-video3",
         "title": "Título do vídeo",
         "description": "Descrição do vídeo",
         "filename": "video.mp4",
@@ -34,7 +34,7 @@
 # percentage: porcentagem do processamento (0.0 a 100.0)
 
 { 
-    "id_video": "uuid-do-video",
+    "id_video": "uuid-do-video2",
     "id_user": "uuid-do-usuario",
     "status": "PROCESSING",
     "status_time": "2023-10-01T12:00:00Z",
