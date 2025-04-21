@@ -105,6 +105,7 @@ jobs:
             AWS_SECRET_ACCESS_KEY: "${{ github.event.inputs.aws_secret_access_key }}"
             AWS_SESSION_TOKEN: "${{ github.event.inputs.aws_session_token }}"
             SNS_TOPIC_ARN: "${{ steps.sns-processing-topic-arn.outputs.SNS_TOPIC_ARN }}"
+            SNS_BASE_URL: "https://sns.${{ github.event.inputs.aws_region }}.amazonaws.com"
           EOF
 
     - name: Create file jackapp-status-database-configmap.yaml
