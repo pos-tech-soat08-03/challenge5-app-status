@@ -39,7 +39,7 @@ const emailAlert = new EmailServiceMock();
 const snsConfigProcessamento = new SnsConfig();
 const notificationGateway = new SnsServiceImpl(snsConfigProcessamento);
 
-const sqsConfigProcessamento = new SqsConfig("sqs-canal-de-processamento");
+const sqsConfigProcessamento = new SqsConfig("sqs-canal-de-processamento-status");
 const queueProcessingGW = new SqsProcessingMsgImpl(sqsConfigProcessamento);
 const queueWorkerProcessing = new QueueWorkerProcessingSQS(new ProcessingQueueHandler(mysqlConnection, queueProcessingGW));
 queueWorkerProcessing.start();
