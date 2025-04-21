@@ -10,7 +10,7 @@ export class SqsConfig {
     const isLocal = process.env.NODE_ENV === "local";
     const config: SQSClientConfig = {
       region: process.env.AWS_REGION ?? "us-east-1",
-      endpoint: isLocal ? "http://localstack:4566" : undefined, // Endpoint do LocalStack
+      endpoint: isLocal ? "http://localstack:4566" : "https://sqs.us-east-1.amazonaws.com", // Endpoint do LocalStack
       credentials: isLocal
         ? { accessKeyId: "test", secretAccessKey: "test" } // Credenciais fictícias
         : {
