@@ -12,7 +12,7 @@ export class SnsConfig {
     const isLocal = process.env.NODE_ENV?.trim() === "local"; // Certifique-se de que o valor é comparado corretamente
     const config: SNSClientConfig = {
       region: process.env.AWS_REGION ?? "us-east-1",
-      endpoint: isLocal ? "http://localstack:4566" : `https://sns.us-east-1.amazonaws.com`,
+      endpoint: isLocal ? "http://localstack:4566" : process.env.SNS_BASE_URL,
       credentials: isLocal
         ? { accessKeyId: "test", secretAccessKey: "test" }
         : {
