@@ -30,15 +30,16 @@ O repositório possui um workflow de CI/CD configurado com o Github Actions, que
 
 O repositório possui a integração com SonarCloud, que avalia qualidade de código e indica a cobertura geral de testes da aplicação.
 
-O Projeto no SonarCloud pode ser acessado em:
- https://sonarcloud.io/project/overview?id=pos-tech-soat08-03_jackapp-app-status
+O Projeto no SonarCloud pode ser acessado em: 
+https://sonarcloud.io/project/overview?id=pos-tech-soat08-03_challenge5-app-status
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pos-tech-soat08-03_jackapp-app-status&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=pos-tech-soat08-03_jackapp-app-status)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=pos-tech-soat08-03_jackapp-app-status&metric=coverage)](https://sonarcloud.io/summary/new_code?id=pos-tech-soat08-03_jackapp-app-status)
-
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pos-tech-soat08-03_challenge5-app-status&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=pos-tech-soat08-03_challenge5-app-status)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=pos-tech-soat08-03_challenge5-app-status&metric=coverage)](https://sonarcloud.io/summary/new_code?id=pos-tech-soat08-03_challenge5-app-status)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=pos-tech-soat08-03_challenge5-app-status&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=pos-tech-soat08-03_challenge5-app-status)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=pos-tech-soat08-03_challenge5-app-status&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=pos-tech-soat08-03_challenge5-app-status)
 ## Cobertura de Testes
 
-<mark>TODO - Inserir Imagem</mark>
+![alt text](docs/assets/test-coverage.png)
 
 ## Configuração do CI/CD
 
@@ -48,30 +49,25 @@ O repositório possui um workflow de CI/CD configurado com o Github Actions, que
 
 O workflow de CI é acionado a cada push no repositório.
 
-[As ultimas execuções do CI podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/jackapp-status/actions/workflows/application-ci.yml)
-
-<mark>TODO - Inserir Imagem</mark>
+[As ultimas execuções do CI podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/challenge5-Jackapp-status/actions/workflows/application-ci.yml)
 
 ### CD - Continuous Deployment
 
 O workflow de CD possui duas etapas:
 
 - A primeira acontece ao finalizar o merge, e realiza o deploy da aplicação no Docker Hub.
-[As ultimas execuções do CD de Imagem podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/jackapp-status/actions/workflows/application-cd-img.yml)
-
-<mark>TODO - Inserir Imagem</mark>
+[As ultimas execuções do CD de Imagem podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/challenge5-Jackapp-status/actions/workflows/application-cd.yml)
 
 - A segunda parte é manual, e realiza o deploy da aplicação no Cluster EKS na AWS.
-[As ultimas execuções do CD EKS podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/jackapp-status/actions/workflows/application-cd-eks.yml)
+[As ultimas execuções do CD EKS podem ser visualizadas nesse link](https://github.com/pos-tech-soat08-03/challenge5-Jackapp-status/actions/workflows/application-cd-eks.yml)
 
-<mark>TODO - Inserir Imagem</mark>
 
 ### Subindo a aplicação na AWS com o Github Actions (Produção)
 
 Para subir os recursos Serverless com o Github Actions, siga os passos abaixo:
 
 1. Acesse o repositório do Github e clique na aba `Actions`, ou acesse diretamente o link abaixo:
-https://github.com/pos-tech-soat08-03/jackapp-status/actions
+https://github.com/pos-tech-soat08-03/challenge5-Jackapp-status/actions
 
 2. Clique no workflow `Application CD - Deploy no EKS` e em seguida clique no botão `Run workflow`
 
@@ -90,8 +86,6 @@ aws_region: <AWS Region>
 Ao final da execução do workflow a aplicação terá os manifestos aplicados via kubectl no ambiente do cluster EKS na AWS. Os dados de ALB e outras configuracões serão armazenadas no bucket S3 (mesmo utilizado na Infraestrutura).
 
 A aplicação também estará disponível no endereço do ALB, que será informado ao final da execução do workflow - porém o acesso à aplicação será restrito por segurança via API Gateway. 
-
-- Acesse o repositório de [Serverless](https://github.com/pos-tech-soat08-03/jackapp-serverless) para mais informações sobre a configuração do API Gateway 
 
 ### Para gerenciar a aplicação no Cluster EKS a partir de um ambiente local
 
@@ -183,6 +177,12 @@ A aplicação foi implementada utilizando a linguagem Typescript, seus pré-requ
 - Jest e Axios para Testes unitários e de integração
 - Testes BDD 
 
+## Definição da Mensageria
+
+A aplicação foi desenvolvida para se comunicar com o serviço de mensageria do projeto no SNS. A comunicação entre os serviços é feita através de mensagens assíncronas, utilizando o padrão SAGA Coreografado.
+
+![alt text](<docs/Diagramas Challenge5 SOAT8 SAGA Coreografada-Diagrama Mensageria.drawio.png>)
+
 ## Arquitetura da Aplicação
 
 A arquitetura utilizada no sistema foi a **Arquitetura Limpa / Clean Architecture**. A aplicação foi completamente refatorada para garantir que alguns princípios importantes sempre fossem respeitados:
@@ -191,6 +191,7 @@ A arquitetura utilizada no sistema foi a **Arquitetura Limpa / Clean Architectur
 - Regras de negócio isoladas: utilizando casos de uso, as regras de negócio permanecem em uma camada intermediária entre entidades e adaptadores do mundo externo. Casos de uso somente são alteradas por necessidades reais do negócio.
 - Adaptadores de interfaces: converte informações de-para camadas internas e externas (gateways e presenters), e orquestram chamadas através de controllers 
 - Frameworks somente podem ser utilizados na camada mais externa de infraestrutura (frameworks e drivers, nesse diagrama)
+- Testes: a arquitetura foi pensada para permitir testes unitários e de integração, com o mínimo de dependências externas.
 
 ## Estrutura dos Diretórios
 
@@ -260,6 +261,10 @@ Contém os casos de uso, responsáveis por executar as regras de negócios da ap
 - As classes nos casos de uso devem ter nomes que representem ações, sempre em forma de verbos.
 - O nome da classe reflete a ação a ser realizada.
 
+## Infraestrutura AWS
+
+![alt text](<docs/Diagramas Challenge5 SOAT8 SAGA Coreografada-Arquitetura AWS.drawio.png>)
+
 ## Padrões que utilizamos no nosso Desenvolvimento
 
 ### Nomenclaturas:
@@ -283,9 +288,3 @@ Contém os casos de uso, responsáveis por executar as regras de negócios da ap
     - `Hotfix: {NúmeroTask} - {mensagem}` Para bugs
     - `Feature: {NúmeroTask} - {mensagem}` Para implementar funcionalidades
     - `Chore: {NúmeroTask} - {mensagem}` Para alterações que não impactem o uso (débito técnico)
-
-## Documentação adicional
-
-Para mais informações sobre a arquitetura, verifique o readme dos outros repositorios:
-
-<mark>TODO - Inserir Imagem</mark>
